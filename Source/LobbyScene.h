@@ -1,0 +1,3 @@
+@interface LobbyScene : CCNode
+
+@end
