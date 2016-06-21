@@ -7,7 +7,36 @@
 //
 
 #import "SettingScene.h"
+#import "MultiplayerController.h"
 
 @implementation SettingScene
+
+-(void)onHost
+{
+    CCLOG(@"onHost");
+    
+    [[MultiplayerController instance] createServerHostedGame];
+    
+    CCScene *lobbyScene = [CCBReader loadAsScene:@"ConnectionScene"];
+    [[CCDirector sharedDirector] replaceScene:lobbyScene];
+}
+
+-(void)onJoin
+{
+    CCLOG(@"onJoin");
+    
+    [[MultiplayerController instance]joinServerHostedGame];
+    
+    CCScene *lobbyScene = [CCBReader loadAsScene:@"ConnectionScene"];
+    [[CCDirector sharedDirector] replaceScene:lobbyScene];
+}
+
+-(void)onBack
+{
+    CCLOG(@"onBack");
+    
+    CCScene *loginScene = [CCBReader loadAsScene:@"LoginScene"];
+    [[CCDirector sharedDirector] replaceScene:loginScene];
+}
 
 @end

@@ -1,0 +1,64 @@
+//
+//  NCMCCentralService.m
+//  NCMultipeerConnectivity
+//
+//  Created by Chengzhao Li on 2016-06-20.
+//  Copyright © 2016 Apportable. All rights reserved.
+//
+
+#import "NCMCCentralService.h"
+#import "Core/NCMCBluetoothLEManager.h"
+#import "Core/NCMCCentralService+Core.h"
+
+@implementation NCMCCentralService
+
+@synthesize session;
+
+-(instancetype)initWithSession:(NCMCSession *)ncmcsession
+{
+    self = [super init];
+    
+    if (self) {
+        self.session = ncmcsession;
+    }
+    
+    return self;
+}
+
+-(void)startBrowsingForPeers
+{
+    
+}
+
+-(void)stopBrowsingForPeers
+{
+    
+}
+
+-(void)invitePeer:(NSString *)peerID
+{
+    
+}
+
+-(void)notifyFoundPeer:(NCMCPeerID *)peerID
+{
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(centralService:foundPeer:)]) {
+        [self.delegate centralService:self foundPeer:peerID];
+    }
+}
+
+-(void)notifyLostPeer:(NCMCPeerID *)peerID
+{
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(centralService:lostPeer:)]) {
+        [self.delegate centralService:self lostPeer:peerID];
+    }
+}
+
+-(void)notifyDidNotStartBrowsingForPeers:(NSError *)error
+{
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(centralService:didNotStartBrowsingForPeers:)]) {
+        [self.delegate centralService:self didNotStartBrowsingForPeers:error];
+    }
+}
+
+@end
