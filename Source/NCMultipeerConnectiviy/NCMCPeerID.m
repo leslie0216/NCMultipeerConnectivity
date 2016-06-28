@@ -7,38 +7,52 @@
 //
 
 #import "NCMCPeerID.h"
-
-@interface NCMCPeerID()
-
-@property (strong, nonatomic)NSString *displayName;
-@property (strong, nonatomic)NSString *identifier;
-
-@end
+#import "Core/NCMCPeerID+Core.h"
 
 @implementation NCMCPeerID
 
 @synthesize displayName, identifier;
 
--(instancetype)initWithDisplayName:(NSString *)myDisplayName
+-(instancetype)initWithDisplayName:(NSString *)name
 {
     self = [super init];
     
     if (self) {
-        self.displayName = myDisplayName;
+        self.displayName = name;
         self.identifier = [[[NSUUID alloc]init] UUIDString];
     }
     
     return self;
 }
 
--(NSString*)displayName
+-(instancetype)initWithDisplayName:(NSString *)n andIdentifier:(NSString *)i
+{
+    self = [super init];
+    
+    if (self) {
+        self.displayName = n;
+        self.identifier = i;
+    }
+    
+    return self;
+}
+
+-(NSString*)getDisplayName
 {
     return self.displayName;
 }
 
--(NSString*)identifier
-{
-    return self.identifier;
+- (id)copyWithZone:(NSZone *)zone {
+    
+    id copy = [[[self class] alloc] init];
+    
+    if (copy) {
+        // Copy NSObject subclasses
+        [copy setIdentifier:self.identifier];
+        [copy setDisplayName:self.displayName];
+    }
+    
+    return copy;
 }
 
 @end

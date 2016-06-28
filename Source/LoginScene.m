@@ -27,8 +27,8 @@
 -(void)onBtnStartClicked
 {
     CCLOG(@"name = %@", tfUserName.string);
-    
-    [[MultiplayerController instance]setMultiplayerDisplayName:tfUserName.string];
+
+    [[MultiplayerController instance] setLocalName:tfUserName.string];
     
     CCScene *serverClientScene = [CCBReader loadAsScene:@"SettingScene"];
     [[CCDirector sharedDirector] replaceScene:serverClientScene];

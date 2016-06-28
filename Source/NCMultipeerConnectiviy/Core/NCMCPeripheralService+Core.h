@@ -15,6 +15,8 @@
 @property (strong, nonatomic)NCMCSession* session;
 
 -(void)notifyDidReceiveInvitationFromPeer:(NCMCPeerID *)peerID
-                        invitationHandler:(void (^)(BOOL accept, NCMCSession *session))invitationHandler;
+                        invitationHandler:(void (^)(BOOL accept, NCMCSession *session, NCMCPeerID *peerID))invitationHandler;
+
+-(void)notifyDidNotStartAdvertising:(NSError*)error;
 
 @end

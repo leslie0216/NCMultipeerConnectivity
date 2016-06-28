@@ -19,7 +19,11 @@ typedef NS_ENUM (NSInteger, NCMCSessionState) {
 NS_ASSUME_NONNULL_BEGIN
 @interface NCMCSession : NSObject
 
--(instancetype)initWithPeer:(NCMCPeerID*)peerID  andServiceID:(NSString*)sid;
+@property (strong, nonatomic)NCMCPeerID* myPeerID;
+
+- (instancetype)init NS_UNAVAILABLE;
+
+-(instancetype)initWithPeer:(NCMCPeerID*)peerID  andServiceID:(NSString*)sid NS_DESIGNATED_INITIALIZER;
 
 -(void)disconnect;
 

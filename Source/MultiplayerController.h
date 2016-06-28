@@ -7,16 +7,28 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NCMCSession.h"
+#import "NCMCCentralService.h"
+#import "NCMCPeripheralService.h"
 
-@interface MultiplayerController : NSObject
+@interface MultiplayerController : NSObject<NCMCSessionDelegate, NCMCCentralServiceDelegate, NCMCPeripheralServiceDelegate, UIAlertViewDelegate>
+
+@property(strong, nonatomic) NCMCSession* currentSession;
+@property(strong, nonatomic) NCMCCentralService* currentCentralService;
+@property(strong, nonatomic) NCMCPeripheralService* currentPeripheralService;
+@property(strong, nonatomic) NSMutableArray* currentSessionPlayerIDs;
+
+@property(assign, nonatomic) Boolean isHost;
+@property(strong, nonatomic) NSString *localName;
 
 + (MultiplayerController *) instance;
-
--(void)setMultiplayerDisplayName:(NSString*)name;
 
 // SETUP FUNCS
 - (void) initializeControllerForNewMatch;
 - (void) createServerHostedGame;
 - (void) joinServerHostedGame;
+- (void) disconnect;
+-(void) startHost;
+-(void) startClient;
 
 @end

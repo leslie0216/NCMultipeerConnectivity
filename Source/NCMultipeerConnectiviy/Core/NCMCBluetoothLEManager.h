@@ -13,13 +13,33 @@
 #import "NCMCPeripheralService+Core.h"
 
 
-@interface NCMCBluetoothLEManager : NSObject
+@interface NCMCBluetoothLEManager : NSObject<CBCentralManagerDelegate, CBPeripheralDelegate, CBPeripheralManagerDelegate>
 
 @property (assign, nonatomic)Boolean isCentral;
 @property (strong, nonatomic)NCMCSession* session;
+@property (strong, nonatomic)NCMCCentralService* centralService;
+@property (strong, nonatomic)NCMCPeripheralService* peripheralService;
+@property (assign, nonatomic) Boolean isDeviceReady;
+
+-(void)clear;
 
 +(NCMCBluetoothLEManager *)instance;
 
 -(void)disconnect;
+
+// central
+-(void)setupCentralEnv:(NCMCCentralService*)service;
+-(Boolean)startBrowsing;
+-(void)stopBrowsing;
+-(void)invitePeer:(NCMCPeerID*)peerID;
+-(void)sendCentralData : (NSData*)data toPerihperal:(NSString*)identifier;
+-(void)disconnectToPeripheral:(NSString*) identifier;
+
+
+// peripheral
+-(void)setupPeripheralEnv:(NCMCPeripheralService*)service;
+-(Boolean)startAdvertising;
+-(void)stopAdvertising;
+-(void)sendPeriheralData : (NSData*)data toCentral:(NSString*)identifier;
 
 @end

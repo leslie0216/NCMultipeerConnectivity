@@ -14,14 +14,14 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @interface NCMCPeripheralService : NSObject
+- (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithSession:(NCMCSession*)session;
+- (instancetype)initWithSession:(NCMCSession*)session NS_DESIGNATED_INITIALIZER;
 
 - (void)startAdvertisingPeer;
 - (void)stopAdvertisingPeer;
 
 @property (weak, NS_NONATOMIC_IOSONLY, nullable) id<NCMCPeripheralServiceDelegate> delegate;
-
 
 @end
 
@@ -29,7 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void) peripheralService:(NCMCPeripheralService *)peripheralService
          didReceiveInvitationFromPeer:(NCMCPeerID *)peerID
-         invitationHandler:(void (^)(BOOL accept, NCMCSession *session))invitationHandler;
+         invitationHandler:(void (^)(BOOL accept, NCMCSession *session, NCMCPeerID *peerID))invitationHandler;
+
+- (void)peripheralService:(NCMCPeripheralService *)peripheralService didNotStartAdvertising:(NSError *)error;
 
 @end
 

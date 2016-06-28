@@ -14,12 +14,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @interface NCMCCentralService : NSObject
+- (instancetype)init NS_UNAVAILABLE;
 
-- (instancetype)initWithSession:(NCMCSession*)ncmcsession;
+- (instancetype)initWithSession:(NCMCSession*)ncmcsession NS_DESIGNATED_INITIALIZER;
 
 - (void)startBrowsingForPeers;
 - (void)stopBrowsingForPeers;
-- (void)invitePeer:(NSString *)peerID;
+- (void)invitePeer:(NCMCPeerID *)peerID;
 
 @property (weak, NS_NONATOMIC_IOSONLY, nullable) id<NCMCCentralServiceDelegate> delegate;
 

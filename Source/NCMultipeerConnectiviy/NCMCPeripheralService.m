@@ -6,7 +6,7 @@
 //  Copyright © 2016 Apportable. All rights reserved.
 //
 
-#import "NCMCPeripheralService.h"
+//#import "NCMCPeripheralService.h"
 #import "Core/NCMCPeripheralService+Core.h"
 #import "Core/NCMCBluetoothLEManager.h"
 
@@ -20,6 +20,7 @@
     
     if (self) {
         self.session = ncmcsession;
+        [[NCMCBluetoothLEManager instance]setupPeripheralEnv:self];
     }
     
     return self;
@@ -27,18 +28,28 @@
 
 -(void)startAdvertisingPeer
 {
-    
+    while (![[NCMCBluetoothLEManager instance]startAdvertising]) {
+        ;
+    }
+    ;
 }
 
 -(void)stopAdvertisingPeer
 {
-    
+    [[NCMCBluetoothLEManager instance]stopAdvertising];
 }
 
--(void)notifyDidReceiveInvitationFromPeer:(NCMCPeerID *)peerID invitationHandler:(void (^)(BOOL, NCMCSession *))invitationHandler
+-(void)notifyDidReceiveInvitationFromPeer:(NCMCPeerID *)peerID invitationHandler:(void (^)(BOOL, NCMCSession*, NCMCPeerID *))invitationHandler
 {
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(peripheralService:didReceiveInvitationFromPeer:invitationHandler:)]) {
         [self.delegate peripheralService:self didReceiveInvitationFromPeer:peerID invitationHandler:invitationHandler];
+    }
+}
+
+-(void)notifyDidNotStartAdvertising:(NSError *)error
+{
+    if (self.delegate != nil && [self.delegate respondsToSelector:@selector(peripheralService:didNotStartAdvertising:)]) {
+        [self.delegate peripheralService:self didNotStartAdvertising:error];
     }
 }
 

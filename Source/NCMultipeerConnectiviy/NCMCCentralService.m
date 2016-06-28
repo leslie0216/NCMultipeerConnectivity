@@ -6,7 +6,7 @@
 //  Copyright © 2016 Apportable. All rights reserved.
 //
 
-#import "NCMCCentralService.h"
+//#import "NCMCCentralService.h"
 #import "Core/NCMCBluetoothLEManager.h"
 #import "Core/NCMCCentralService+Core.h"
 
@@ -20,6 +20,7 @@
     
     if (self) {
         self.session = ncmcsession;
+        [[NCMCBluetoothLEManager instance]setupCentralEnv:self];
     }
     
     return self;
@@ -27,17 +28,19 @@
 
 -(void)startBrowsingForPeers
 {
-    
+    while (![[NCMCBluetoothLEManager instance]startBrowsing]) {
+        ;
+    };
 }
 
 -(void)stopBrowsingForPeers
 {
-    
+    [[NCMCBluetoothLEManager instance]stopBrowsing];
 }
 
--(void)invitePeer:(NSString *)peerID
+-(void)invitePeer:(NCMCPeerID *)peerID
 {
-    
+    [[NCMCBluetoothLEManager instance]invitePeer:peerID];
 }
 
 -(void)notifyFoundPeer:(NCMCPeerID *)peerID

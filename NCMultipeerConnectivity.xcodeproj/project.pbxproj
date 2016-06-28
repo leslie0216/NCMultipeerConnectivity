@@ -73,6 +73,15 @@
 		9B1F83DC1D19CFCE00837DA1 /* NCMCMessageData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1F83DB1D19CFCE00837DA1 /* NCMCMessageData.m */; };
 		9B1F83DD1D19CFCE00837DA1 /* NCMCMessageData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1F83DB1D19CFCE00837DA1 /* NCMCMessageData.m */; };
 		9B1F83DE1D19CFCE00837DA1 /* NCMCMessageData.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1F83DB1D19CFCE00837DA1 /* NCMCMessageData.m */; };
+		9B1F83EC1D19E1E400837DA1 /* NCMCPeripheralInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1F83EB1D19E1E400837DA1 /* NCMCPeripheralInfo.m */; };
+		9B1F83ED1D19E1E400837DA1 /* NCMCPeripheralInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1F83EB1D19E1E400837DA1 /* NCMCPeripheralInfo.m */; };
+		9B1F83EE1D19E1E400837DA1 /* NCMCPeripheralInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B1F83EB1D19E1E400837DA1 /* NCMCPeripheralInfo.m */; };
+		9B24307E1D1C849D00F5DFC1 /* NCMCDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B24307D1D1C849D00F5DFC1 /* NCMCDeviceInfo.m */; };
+		9B24307F1D1C849D00F5DFC1 /* NCMCDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B24307D1D1C849D00F5DFC1 /* NCMCDeviceInfo.m */; };
+		9B2430801D1C849D00F5DFC1 /* NCMCDeviceInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B24307D1D1C849D00F5DFC1 /* NCMCDeviceInfo.m */; };
+		9B28F0261D219148008B35B3 /* NCMCAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B28F0251D219148008B35B3 /* NCMCAlertView.m */; };
+		9B28F0271D219148008B35B3 /* NCMCAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B28F0251D219148008B35B3 /* NCMCAlertView.m */; };
+		9B28F0281D219148008B35B3 /* NCMCAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B28F0251D219148008B35B3 /* NCMCAlertView.m */; };
 		9B6B1ED11D18944F0008B45D /* LoginScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1ED01D18944F0008B45D /* LoginScene.m */; };
 		9B6B1ED21D18944F0008B45D /* LoginScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1ED01D18944F0008B45D /* LoginScene.m */; };
 		9B6B1ED31D18944F0008B45D /* LoginScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1ED01D18944F0008B45D /* LoginScene.m */; };
@@ -210,6 +219,13 @@
 		9B1F83DA1D19CFCE00837DA1 /* NCMCMessageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NCMCMessageData.h; path = Source/NCMultipeerConnectiviy/Core/NCMCMessageData.h; sourceTree = "<group>"; };
 		9B1F83DB1D19CFCE00837DA1 /* NCMCMessageData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NCMCMessageData.m; path = Source/NCMultipeerConnectiviy/Core/NCMCMessageData.m; sourceTree = "<group>"; };
 		9B1F83DF1D19D5E100837DA1 /* NCMCPeripheralService+Core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NCMCPeripheralService+Core.h"; path = "Source/NCMultipeerConnectiviy/Core/NCMCPeripheralService+Core.h"; sourceTree = "<group>"; };
+		9B1F83EA1D19E1E400837DA1 /* NCMCPeripheralInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NCMCPeripheralInfo.h; path = Source/NCMultipeerConnectiviy/Core/NCMCPeripheralInfo.h; sourceTree = "<group>"; };
+		9B1F83EB1D19E1E400837DA1 /* NCMCPeripheralInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NCMCPeripheralInfo.m; path = Source/NCMultipeerConnectiviy/Core/NCMCPeripheralInfo.m; sourceTree = "<group>"; };
+		9B1F83EF1D19F68200837DA1 /* NCMCPeerID+Core.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NCMCPeerID+Core.h"; path = "Source/NCMultipeerConnectiviy/Core/NCMCPeerID+Core.h"; sourceTree = "<group>"; };
+		9B24307C1D1C849D00F5DFC1 /* NCMCDeviceInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NCMCDeviceInfo.h; path = Source/NCMultipeerConnectiviy/Core/NCMCDeviceInfo.h; sourceTree = "<group>"; };
+		9B24307D1D1C849D00F5DFC1 /* NCMCDeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NCMCDeviceInfo.m; path = Source/NCMultipeerConnectiviy/Core/NCMCDeviceInfo.m; sourceTree = "<group>"; };
+		9B28F0241D219148008B35B3 /* NCMCAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NCMCAlertView.h; path = Source/NCMCAlertView.h; sourceTree = "<group>"; };
+		9B28F0251D219148008B35B3 /* NCMCAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NCMCAlertView.m; path = Source/NCMCAlertView.m; sourceTree = "<group>"; };
 		9B6B1ECF1D18944F0008B45D /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginScene.h; path = Source/LoginScene.h; sourceTree = "<group>"; };
 		9B6B1ED01D18944F0008B45D /* LoginScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginScene.m; path = Source/LoginScene.m; sourceTree = "<group>"; };
 		9B6B1ED41D1895860008B45D /* SettingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingScene.h; path = Source/SettingScene.h; sourceTree = "<group>"; };
@@ -485,10 +501,15 @@
 				9B1F83D01D19B83800837DA1 /* NCMCSession+Core.h */,
 				9B1F83D51D19BAAD00837DA1 /* NCMCCentralService+Core.h */,
 				9B1F83DF1D19D5E100837DA1 /* NCMCPeripheralService+Core.h */,
+				9B1F83EF1D19F68200837DA1 /* NCMCPeerID+Core.h */,
 				9B1F83DA1D19CFCE00837DA1 /* NCMCMessageData.h */,
 				9B1F83DB1D19CFCE00837DA1 /* NCMCMessageData.m */,
+				9B1F83EA1D19E1E400837DA1 /* NCMCPeripheralInfo.h */,
+				9B1F83EB1D19E1E400837DA1 /* NCMCPeripheralInfo.m */,
 				9B1F83CB1D19B5AF00837DA1 /* NCMCBluetoothLEManager.h */,
 				9B1F83CC1D19B5AF00837DA1 /* NCMCBluetoothLEManager.m */,
+				9B24307C1D1C849D00F5DFC1 /* NCMCDeviceInfo.h */,
+				9B24307D1D1C849D00F5DFC1 /* NCMCDeviceInfo.m */,
 			);
 			name = Core;
 			sourceTree = "<group>";
@@ -496,12 +517,12 @@
 		9B6B1EE71D1898DA0008B45D /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				9B6B1ECF1D18944F0008B45D /* LoginScene.h */,
+				9B6B1ED01D18944F0008B45D /* LoginScene.m */,
 				9B6B1ED41D1895860008B45D /* SettingScene.h */,
 				9B6B1ED51D1895860008B45D /* SettingScene.m */,
 				B7378992180767190076A88C /* LobbyScene.h */,
 				B7378993180767190076A88C /* LobbyScene.m */,
-				9B6B1ECF1D18944F0008B45D /* LoginScene.h */,
-				9B6B1ED01D18944F0008B45D /* LoginScene.m */,
 				9B6B1ED91D1895A50008B45D /* ConnectionScene.h */,
 				9B6B1EDA1D1895A50008B45D /* ConnectionScene.m */,
 			);
@@ -514,6 +535,8 @@
 				9B6B1EE91D1899210008B45D /* NCMultipeerConnectiviy */,
 				9B6B1EEA1D1899850008B45D /* MultiplayerController.h */,
 				9B6B1EEB1D1899850008B45D /* MultiplayerController.m */,
+				9B28F0241D219148008B35B3 /* NCMCAlertView.h */,
+				9B28F0251D219148008B35B3 /* NCMCAlertView.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -901,12 +924,15 @@
 			files = (
 				7A4036E819DE3F33007B6E8F /* LobbyScene.m in Sources */,
 				7A40360419DDEE84007B6E8F /* main.m in Sources */,
+				9B1F83EE1D19E1E400837DA1 /* NCMCPeripheralInfo.m in Sources */,
 				9B6B1EDD1D1895A50008B45D /* ConnectionScene.m in Sources */,
 				9B6B1ED31D18944F0008B45D /* LoginScene.m in Sources */,
 				7A59498E19E3941300F65F90 /* AppDelegate.m in Sources */,
+				9B2430801D1C849D00F5DFC1 /* NCMCDeviceInfo.m in Sources */,
 				9B6B1ED81D1895860008B45D /* SettingScene.m in Sources */,
 				9B1F83CF1D19B5AF00837DA1 /* NCMCBluetoothLEManager.m in Sources */,
 				9B1F83DE1D19CFCE00837DA1 /* NCMCMessageData.m in Sources */,
+				9B28F0281D219148008B35B3 /* NCMCAlertView.m in Sources */,
 				9B6B1EEE1D1899850008B45D /* MultiplayerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -917,9 +943,12 @@
 			files = (
 				9B6B1EDC1D1895A50008B45D /* ConnectionScene.m in Sources */,
 				9B6B1ED21D18944F0008B45D /* LoginScene.m in Sources */,
+				9B24307F1D1C849D00F5DFC1 /* NCMCDeviceInfo.m in Sources */,
+				9B1F83ED1D19E1E400837DA1 /* NCMCPeripheralInfo.m in Sources */,
 				9B6B1EED1D1899850008B45D /* MultiplayerController.m in Sources */,
 				9B6B1ED71D1895860008B45D /* SettingScene.m in Sources */,
 				9B1F83DD1D19CFCE00837DA1 /* NCMCMessageData.m in Sources */,
+				9B28F0271D219148008B35B3 /* NCMCAlertView.m in Sources */,
 				9B1F83CE1D19B5AF00837DA1 /* NCMCBluetoothLEManager.m in Sources */,
 				927F619E196C771E000F43EF /* LobbyScene.m in Sources */,
 				5B121030197484FA004C1E1D /* NCMultipeerConnectivityActivity.m in Sources */,
@@ -937,11 +966,14 @@
 				9B6B1ED11D18944F0008B45D /* LoginScene.m in Sources */,
 				9B1F83C91D19AEEF00837DA1 /* NCMCSession.m in Sources */,
 				9B1F83CD1D19B5AF00837DA1 /* NCMCBluetoothLEManager.m in Sources */,
+				9B24307E1D1C849D00F5DFC1 /* NCMCDeviceInfo.m in Sources */,
 				9B1F83C81D19AEEF00837DA1 /* NCMCPeripheralService.m in Sources */,
 				5B121038197487F2004C1E1D /* AppDelegate.m in Sources */,
 				9B1F83C61D19AEEF00837DA1 /* NCMCCentralService.m in Sources */,
 				9B6B1ED61D1895860008B45D /* SettingScene.m in Sources */,
 				9B6B1EEC1D1899850008B45D /* MultiplayerController.m in Sources */,
+				9B1F83EC1D19E1E400837DA1 /* NCMCPeripheralInfo.m in Sources */,
+				9B28F0261D219148008B35B3 /* NCMCAlertView.m in Sources */,
 				9B1F83DC1D19CFCE00837DA1 /* NCMCMessageData.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

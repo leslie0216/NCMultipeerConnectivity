@@ -8,9 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-@interface NCMCPeerID : NSObject
-- (instancetype)initWithDisplayName:(NSString *)myDisplayName;
+@interface NCMCPeerID : NSObject<NSCopying>
+- (instancetype)initWithDisplayName:(NSString *)name;
 
-- (NSString *)displayName;
-- (NSString*)identifier;
+- (NSString *)getDisplayName;
 @end

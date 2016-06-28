@@ -17,7 +17,7 @@
     
     [[MultiplayerController instance] createServerHostedGame];
     
-    CCScene *lobbyScene = [CCBReader loadAsScene:@"ConnectionScene"];
+    CCScene *lobbyScene = [CCBReader loadAsScene:@"LobbyScene"];
     [[CCDirector sharedDirector] replaceScene:lobbyScene];
 }
 
@@ -27,7 +27,7 @@
     
     [[MultiplayerController instance]joinServerHostedGame];
     
-    CCScene *lobbyScene = [CCBReader loadAsScene:@"ConnectionScene"];
+    CCScene *lobbyScene = [CCBReader loadAsScene:@"LobbyScene"];
     [[CCDirector sharedDirector] replaceScene:lobbyScene];
 }
 

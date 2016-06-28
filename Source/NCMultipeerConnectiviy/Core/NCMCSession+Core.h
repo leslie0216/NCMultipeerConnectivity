@@ -8,13 +8,25 @@
 
 #import <Foundation/Foundation.h>
 #import "NCMCSession.h"
+#import "NCMCDeviceInfo.h"
 
 @interface NCMCSession()
 
-@property (strong, nonatomic)NCMCPeerID* myPeerID;
 @property (strong, nonatomic)NSString* serviceID;
+@property (assign, nonatomic)char myUniqueID;
+@property (strong, nonatomic)NSMutableDictionary<NSString*, NCMCDeviceInfo*> *connectedDevices;
 
 -(void)notifyPeerStateChanged:(NCMCPeerID *)peerID newState:(NCMCSessionState)state;
 -(void)notifyDidReceiveData:(NSData *)data fromPeer:(NCMCPeerID *)peerID;
+
+-(void)onDataReceived:(NSData *)data from:(NSString *)identifier;
+-(void)onPeerConnected:(NSString *)identifier;
+-(void)onPeriphearalDisconnected:(NSString *)identifier; // used by central
+-(void)onCentralDisconnected; // used by perihearal
+
+-(void)sendCentralConnectionRequestToPeer:(NCMCPeerID *)peerID;
+
+-(void)setSelfAsCentral;
+-(NSString*)getCentralDeviceIdentifier;
 
 @end
