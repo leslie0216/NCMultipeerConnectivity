@@ -6,7 +6,6 @@
 //  Copyright © 2016 Apportable. All rights reserved.
 //
 
-//#import "NCMCPeripheralService.h"
 #import "Core/NCMCPeripheralService+Core.h"
 #import "Core/NCMCBluetoothLEManager.h"
 

@@ -716,7 +716,6 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
         
         [self.connectedCentrals removeObjectForKey:central.identifier.UUIDString];
         
-        // TODO : session stata change
         if (self.session != nil) {
             [self.session onCentralDisconnected];
         }
@@ -745,13 +744,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
             [peripheral respondToRequest:request    withResult:CBATTErrorSuccess];
             //CCLOG(@"peripheralManager receive data length %u", request.value.length);
             NSMutableString *identifier = [NSMutableString stringWithString:request.central.identifier.UUIDString];
-            /*
-            if (self.session != nil) {
-                NSString* customiseId = [self.session getCentralDeviceIdentifier];
-                if (![customiseId isEqualToString:@""]) {
-                    [identifier setString:customiseId];
-                }
-            }*/
+
             [self processMsg:request.value from:identifier];
         }
     }

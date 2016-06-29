@@ -6,7 +6,6 @@
 //  Copyright © 2016 Apportable. All rights reserved.
 //
 
-//#import "NCMCSession.h"
 #import "Core/NCMCBluetoothLEManager.h"
 #import "Core/NCMCSession+Core.h"
 #import "Core/NCMCPeerID+Core.h"
@@ -129,14 +128,6 @@ typedef enum NCMCSystemMessageType {
     }
     
     self.myUniqueID = 0;
-    
-    /*
-    NCMCDeviceInfo* centralDevice = [[NCMCDeviceInfo alloc]init];
-    centralDevice.identifier = self.myPeerID.identifier;
-    centralDevice.uniqueID = 0;
-    centralDevice.name = [self.myPeerID displayName];
-    
-    self.connectedDevices[self.myPeerID.identifier] = centralDevice;*/
 }
 
 -(NSData*)packSystemMessageWithType:(char)msgType andMessage:(NSData*)msg
@@ -226,7 +217,6 @@ typedef enum NCMCSystemMessageType {
 
 -(void)sendCentralConnectionRequestToPeer:(NCMCPeerID *)peerID
 {
-    //NCMCDeviceInfo* centralDevice = self.connectedDevices[self.myPeerID.identifier];
     NCMCDeviceInfo* centralDevice = [[NCMCDeviceInfo alloc]init];
     centralDevice.identifier = self.myPeerID.identifier;
     centralDevice.uniqueID = 0;
@@ -373,9 +363,6 @@ void(^myInvitationHandler)(BOOL, NCMCSession*, NCMCPeerID*) = ^(BOOL accept, NCM
                 if ([device.name isEqualToString:self.myPeerID.displayName]) {
                     self.myPeerID.identifier = device.identifier;
                     self.myUniqueID = device.uniqueID;
-                    
-                    // add self to connected dict, do we?
-                    //self.connectedDevices[device.identifier] = device;
                     
                     // send central connection status notification
                     NCMCDeviceInfo* centralDevice = [self getDeviceInfoByUniqueID:0];
