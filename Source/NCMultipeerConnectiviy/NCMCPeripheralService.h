@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithSession:(NCMCSession*)session NS_DESIGNATED_INITIALIZER;
 
-- (void)startAdvertisingPeer;
+- (Boolean)startAdvertisingPeer;
 - (void)stopAdvertisingPeer;
 
 @property (weak, NS_NONATOMIC_IOSONLY, nullable) id<NCMCPeripheralServiceDelegate> delegate;

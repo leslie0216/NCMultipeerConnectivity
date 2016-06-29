@@ -259,7 +259,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 -(Boolean)startBrowsing
 {
     if (self.isDeviceReady) {
-        [self.centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:self.session.serviceID]]  options:@{CBCentralManagerScanOptionAllowDuplicatesKey: @YES}] ;
+        [self.centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:self.session.serviceID]]  options:@{CBCentralManagerScanOptionAllowDuplicatesKey: @NO}] ;
         CCLOG(@"BluetoothLE central scanning started");
     }
     

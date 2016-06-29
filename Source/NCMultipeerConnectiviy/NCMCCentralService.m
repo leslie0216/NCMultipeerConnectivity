@@ -26,11 +26,9 @@
     return self;
 }
 
--(void)startBrowsingForPeers
+-(Boolean)startBrowsingForPeers
 {
-    while (![[NCMCBluetoothLEManager instance]startBrowsing]) {
-        ;
-    };
+    return [[NCMCBluetoothLEManager instance]startBrowsing];
 }
 
 -(void)stopBrowsingForPeers

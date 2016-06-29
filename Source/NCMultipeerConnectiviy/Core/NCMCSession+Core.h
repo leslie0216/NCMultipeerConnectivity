@@ -20,7 +20,6 @@
 -(void)notifyDidReceiveData:(NSData *)data fromPeer:(NCMCPeerID *)peerID;
 
 -(void)onDataReceived:(NSData *)data from:(NSString *)identifier;
--(void)onPeerConnected:(NSString *)identifier;
 -(void)onPeriphearalDisconnected:(NSString *)identifier; // used by central
 -(void)onCentralDisconnected; // used by perihearal
 

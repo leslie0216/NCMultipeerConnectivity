@@ -26,12 +26,9 @@
     return self;
 }
 
--(void)startAdvertisingPeer
+-(Boolean)startAdvertisingPeer
 {
-    while (![[NCMCBluetoothLEManager instance]startAdvertising]) {
-        ;
-    }
-    ;
+    return [[NCMCBluetoothLEManager instance]startAdvertising];
 }
 
 -(void)stopAdvertisingPeer

@@ -18,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithSession:(NCMCSession*)ncmcsession NS_DESIGNATED_INITIALIZER;
 
-- (void)startBrowsingForPeers;
+- (Boolean)startBrowsingForPeers;
 - (void)stopBrowsingForPeers;
 - (void)invitePeer:(NCMCPeerID *)peerID;
 
