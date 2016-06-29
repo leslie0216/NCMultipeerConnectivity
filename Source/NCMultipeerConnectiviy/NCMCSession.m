@@ -142,21 +142,23 @@ typedef enum NCMCSystemMessageType {
 -(NSData*)packSystemMessageWithType:(char)msgType andMessage:(NSData*)msg
 {
     NSUInteger len = [msg length];
-    char msgBuffer[len+2];
+    char msgBuffer[len+3];
     char* target = msgBuffer;
     msgBuffer[0] = 1; // system message
-    msgBuffer[1] = msgType;
+    msgBuffer[1] = msgType; // system message type
+    msgBuffer[2] = 0; // nothing, system reserved
+    target++;
     target++;
     target++;
     
     if(msg == nil) {
         // this message has no content
-        return [NSData dataWithBytes:msgBuffer length:2];
+        return [NSData dataWithBytes:msgBuffer length:3];
     }
     
     memcpy(target, [msg bytes], len);
     
-    return [NSData dataWithBytes:msgBuffer length:len+2];
+    return [NSData dataWithBytes:msgBuffer length:len+3];
 }
 
 -(NSData*)packUserMessage:(NSData*)msg withTargetPeerID:(NCMCPeerID*)peerID
@@ -164,21 +166,23 @@ typedef enum NCMCSystemMessageType {
     NCMCDeviceInfo* targetDevice = self.connectedDevices[peerID.identifier];
     if (targetDevice != nil) {
         NSUInteger len = [msg length];
-        char msgBuffer[len+2];
+        char msgBuffer[len+3];
         char* target = msgBuffer;
         msgBuffer[0] = 0; // user message
-        msgBuffer[1] = targetDevice.uniqueID;
+        msgBuffer[1] = targetDevice.uniqueID; // message to
+        msgBuffer[2] = self.myUniqueID; // message from
+        target++;
         target++;
         target++;
         
         if(msg == nil) {
             // this message has no content
-            return [NSData dataWithBytes:msgBuffer length:2];
+            return [NSData dataWithBytes:msgBuffer length:3];
         }
         
         memcpy(target, [msg bytes], len);
         
-        return [NSData dataWithBytes:msgBuffer length:len+2];
+        return [NSData dataWithBytes:msgBuffer length:len+3];
     }
     
     return nil;
@@ -276,11 +280,13 @@ void(^myInvitationHandler)(BOOL, NCMCSession*, NCMCPeerID*) = ^(BOOL accept, NCM
     char* dataPointer = (char*)[data bytes];
     NSUInteger dataLength = [data length];
     BOOL isSysMsg = (BOOL)dataPointer[0];
-    char extraInfo = (char)dataPointer[1]; // sys : sysmsg type; user : target
+    char extraInfo = (char)dataPointer[1]; // sys : sysmsg type; user : msgTo
+    char extraInfo2 = (char)dataPointer[2]; // sys : nothing type; user : msgFrom
+    dataPointer++;
     dataPointer++;
     dataPointer++;
     
-    NSData* dataMsg = [NSData dataWithBytes:dataPointer length:dataLength-2];
+    NSData* dataMsg = [NSData dataWithBytes:dataPointer length:dataLength-3];
     
     if (isSysMsg) {
 
@@ -426,7 +432,7 @@ void(^myInvitationHandler)(BOOL, NCMCSession*, NCMCPeerID*) = ^(BOOL accept, NCM
             }
         } else {
             if (self.myUniqueID == extraInfo) {
-                NCMCDeviceInfo *deviceInfo = self.connectedDevices[identifier];
+                NCMCDeviceInfo *deviceInfo = [self getDeviceInfoByUniqueID:extraInfo2];
                 NCMCPeerID *peerID = [[NCMCPeerID alloc]initWithDisplayName:deviceInfo.name andIdentifier:identifier];
                 [self notifyDidReceiveData:dataMsg fromPeer:peerID];
             }
