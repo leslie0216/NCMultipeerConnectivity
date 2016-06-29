@@ -46,6 +46,7 @@
 -(void)onStart
 {
     CCLOG(@"onBtnStartClicked");
+    [[MultiplayerController instance] gotoChatRoom];
 }
 
 -(void)disconnectAndBack

@@ -10,6 +10,7 @@
 #import "NCMCPeerID.h"
 #import "NCMCAlertView.h"
 #import "Parameters.h"
+#import "LobbyScene.h"
 
 @implementation MultiplayerController
 
@@ -100,10 +101,104 @@ static MultiplayerController *_sharedMultiplayerController = nil;
     }
 }
 
-// session delegate
+-(void)sendData:(NSData *)msgData to:(NSString *)name
+{
+    NCMCPeerID *peer  = [self getPeerIDByName:name];
+    if (peer != nil) {
+        CCLOG(@"MultiplayerController send data to %@", name);
+        NSData *data = [self packMessageWithType:MSG_CHAT_MSG andMessage:msgData];
+        NSArray *targets = @[peer];
+        [self.currentSession sendData:data toPeers:targets];
+    }
+}
+
+-(NCMCPeerID*)getPeerIDByName:(NSString*)name
+{
+    for (NCMCPeerID *pid in self.currentSessionPlayerIDs) {
+        if ([[pid getDisplayName] isEqualToString:name]) {
+            return pid;
+        }
+    }
+    
+    return nil;
+}
+
+-(void)gotoChatRoom
+{
+    if (self.currentPeripheralService != nil) {
+        [self.currentPeripheralService stopAdvertisingPeer];
+        self.currentPeripheralService.delegate = nil;
+        self.currentPeripheralService = nil;
+    }
+    
+    if (self.currentCentralService != nil) {
+        [self.currentCentralService stopBrowsingForPeers];
+        self.currentCentralService.delegate = nil;
+        self.currentCentralService = nil;
+    }
+    
+    if (isHost) {
+        NSData *data = [self packMessageWithType:MSG_SERVER_CLIENT_GO_TO_CHAT andMessage:nil];
+        [self.currentSession sendData:data toPeers:self.currentSessionPlayerIDs];
+    }
+    
+    CCScene *chatScene = [CCBReader loadAsScene:@"ChatRoomScene"];
+    [[CCDirector sharedDirector] replaceScene:chatScene];
+}
+
+-(NSData*)packMessageWithType:(char)msgType andMessage:(NSData*)msg{
+    char* target = msgBuffer;
+    msgBuffer[0] = msgType;
+    target++;
+    
+    if(msg == nil) {
+        // this message has no content
+        return [NSData dataWithBytesNoCopy:msgBuffer length:1 freeWhenDone:NO];
+    }
+    
+    NSUInteger len = [msg length];
+    memcpy(target, [msg bytes], len);
+    
+    return [NSData dataWithBytesNoCopy:msgBuffer length:len+1 freeWhenDone:NO];
+}
+
+- (void)processMessage:(NSData*)data fromPeer:(NCMCPeerID*)peer
+{
+    char* msgPointer = (char*)[data bytes];
+    int msgLength = [data length];
+    int msgType = (int)msgPointer[0];
+    msgPointer++;
+    
+    NSData* msgData;
+    msgData = [NSData dataWithBytes:msgPointer length:msgLength-1];
+    switch (msgType) {
+        case MSG_SERVER_CLIENT_GO_TO_CHAT:
+        {
+            [self gotoChatRoom];
+            
+            break;
+        }
+        case MSG_CHAT_MSG:
+        {
+            NSDictionary *userInfo = @{ @"name": [peer getDisplayName],
+                                        @"message": msgData};
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_MESSAGE_NOTIFICATION
+                                                                    object:nil
+                                                                  userInfo:userInfo];
+            });
+            break;
+        }
+    }
+}
+
+/***********************************************************************/
+/*                          DELEGATE FUNCTIONS                          */
+/***********************************************************************/
 -(void)session:(NCMCSession *)session peer:(NCMCPeerID *)peerID didChangeState:(NCMCSessionState)state
 {
-    CCLOG(@"MCSession session peer didChangeState : %@, state : %d", [peerID getDisplayName], state);
+    CCLOG(@"MCSession session peer didChangeState : %@, state : %ld", [peerID getDisplayName], (long)state);
     
     dispatch_async(dispatch_get_main_queue(), ^{
         switch (state) {
@@ -131,6 +226,11 @@ static MultiplayerController *_sharedMultiplayerController = nil;
                 for (NCMCPeerID *pid in self.currentSessionPlayerIDs) {
                     if ([[pid getDisplayName] isEqualToString:[peerID getDisplayName]]) {
                         [self.currentSessionPlayerIDs removeObject:pid];
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [[NSNotificationCenter defaultCenter] postNotificationName:UPDATE_PLAYERLIST_NOTIFICATION
+                                                                                object:nil
+                                                                              userInfo:nil];
+                        });
                         break;
                     }
                 }
@@ -143,7 +243,7 @@ static MultiplayerController *_sharedMultiplayerController = nil;
 
 -(void)session:(NCMCSession *)session didReceiveData:(NSData *)data fromPeer:(NCMCPeerID *)peerID
 {
-    
+    [self processMessage:data fromPeer:peerID];
 }
 
 -(void)centralService:(NCMCCentralService *)centralService foundPeer:(NCMCPeerID *)peerID

@@ -276,7 +276,7 @@ void(^myInvitationHandler)(BOOL, NCMCSession*, NCMCPeerID*) = ^(BOOL accept, NCM
     char* dataPointer = (char*)[data bytes];
     NSUInteger dataLength = [data length];
     BOOL isSysMsg = (BOOL)dataPointer[0];
-    char extraInfo = (char)dataPointer[1];
+    char extraInfo = (char)dataPointer[1]; // sys : sysmsg type; user : target
     dataPointer++;
     dataPointer++;
     

@@ -26,6 +26,11 @@
     return self;
 }
 
+-(Boolean)isDeviceReady
+{
+    return [[NCMCBluetoothLEManager instance]isDeviceReady];
+}
+
 -(Boolean)startAdvertisingPeer
 {
     return [[NCMCBluetoothLEManager instance]startAdvertising];

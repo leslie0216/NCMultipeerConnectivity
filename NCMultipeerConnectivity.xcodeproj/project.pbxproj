@@ -82,15 +82,15 @@
 		9B28F0261D219148008B35B3 /* NCMCAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B28F0251D219148008B35B3 /* NCMCAlertView.m */; };
 		9B28F0271D219148008B35B3 /* NCMCAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B28F0251D219148008B35B3 /* NCMCAlertView.m */; };
 		9B28F0281D219148008B35B3 /* NCMCAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B28F0251D219148008B35B3 /* NCMCAlertView.m */; };
+		9B2A23611D2428E800C6EEC5 /* ChatRoomScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2A23601D2428E800C6EEC5 /* ChatRoomScene.m */; };
+		9B2A23621D2428E800C6EEC5 /* ChatRoomScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2A23601D2428E800C6EEC5 /* ChatRoomScene.m */; };
+		9B2A23631D2428E800C6EEC5 /* ChatRoomScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2A23601D2428E800C6EEC5 /* ChatRoomScene.m */; };
 		9B6B1ED11D18944F0008B45D /* LoginScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1ED01D18944F0008B45D /* LoginScene.m */; };
 		9B6B1ED21D18944F0008B45D /* LoginScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1ED01D18944F0008B45D /* LoginScene.m */; };
 		9B6B1ED31D18944F0008B45D /* LoginScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1ED01D18944F0008B45D /* LoginScene.m */; };
 		9B6B1ED61D1895860008B45D /* SettingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1ED51D1895860008B45D /* SettingScene.m */; };
 		9B6B1ED71D1895860008B45D /* SettingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1ED51D1895860008B45D /* SettingScene.m */; };
 		9B6B1ED81D1895860008B45D /* SettingScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1ED51D1895860008B45D /* SettingScene.m */; };
-		9B6B1EDB1D1895A50008B45D /* ConnectionScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1EDA1D1895A50008B45D /* ConnectionScene.m */; };
-		9B6B1EDC1D1895A50008B45D /* ConnectionScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1EDA1D1895A50008B45D /* ConnectionScene.m */; };
-		9B6B1EDD1D1895A50008B45D /* ConnectionScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1EDA1D1895A50008B45D /* ConnectionScene.m */; };
 		9B6B1EEC1D1899850008B45D /* MultiplayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1EEB1D1899850008B45D /* MultiplayerController.m */; };
 		9B6B1EED1D1899850008B45D /* MultiplayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1EEB1D1899850008B45D /* MultiplayerController.m */; };
 		9B6B1EEE1D1899850008B45D /* MultiplayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1EEB1D1899850008B45D /* MultiplayerController.m */; };
@@ -226,12 +226,12 @@
 		9B24307D1D1C849D00F5DFC1 /* NCMCDeviceInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NCMCDeviceInfo.m; path = Source/NCMultipeerConnectiviy/Core/NCMCDeviceInfo.m; sourceTree = "<group>"; };
 		9B28F0241D219148008B35B3 /* NCMCAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NCMCAlertView.h; path = Source/NCMCAlertView.h; sourceTree = "<group>"; };
 		9B28F0251D219148008B35B3 /* NCMCAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NCMCAlertView.m; path = Source/NCMCAlertView.m; sourceTree = "<group>"; };
+		9B2A235F1D2428E800C6EEC5 /* ChatRoomScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChatRoomScene.h; path = Source/ChatRoomScene.h; sourceTree = "<group>"; };
+		9B2A23601D2428E800C6EEC5 /* ChatRoomScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChatRoomScene.m; path = Source/ChatRoomScene.m; sourceTree = "<group>"; };
 		9B6B1ECF1D18944F0008B45D /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginScene.h; path = Source/LoginScene.h; sourceTree = "<group>"; };
 		9B6B1ED01D18944F0008B45D /* LoginScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginScene.m; path = Source/LoginScene.m; sourceTree = "<group>"; };
 		9B6B1ED41D1895860008B45D /* SettingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingScene.h; path = Source/SettingScene.h; sourceTree = "<group>"; };
 		9B6B1ED51D1895860008B45D /* SettingScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingScene.m; path = Source/SettingScene.m; sourceTree = "<group>"; };
-		9B6B1ED91D1895A50008B45D /* ConnectionScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ConnectionScene.h; path = Source/ConnectionScene.h; sourceTree = "<group>"; };
-		9B6B1EDA1D1895A50008B45D /* ConnectionScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ConnectionScene.m; path = Source/ConnectionScene.m; sourceTree = "<group>"; };
 		9B6B1EE41D1898340008B45D /* Parameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Parameters.h; path = Source/Parameters.h; sourceTree = "<group>"; };
 		9B6B1EEA1D1899850008B45D /* MultiplayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiplayerController.h; path = Source/MultiplayerController.h; sourceTree = "<group>"; };
 		9B6B1EEB1D1899850008B45D /* MultiplayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiplayerController.m; path = Source/MultiplayerController.m; sourceTree = "<group>"; };
@@ -523,8 +523,8 @@
 				9B6B1ED51D1895860008B45D /* SettingScene.m */,
 				B7378992180767190076A88C /* LobbyScene.h */,
 				B7378993180767190076A88C /* LobbyScene.m */,
-				9B6B1ED91D1895A50008B45D /* ConnectionScene.h */,
-				9B6B1EDA1D1895A50008B45D /* ConnectionScene.m */,
+				9B2A235F1D2428E800C6EEC5 /* ChatRoomScene.h */,
+				9B2A23601D2428E800C6EEC5 /* ChatRoomScene.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -925,12 +925,12 @@
 				7A4036E819DE3F33007B6E8F /* LobbyScene.m in Sources */,
 				7A40360419DDEE84007B6E8F /* main.m in Sources */,
 				9B1F83EE1D19E1E400837DA1 /* NCMCPeripheralInfo.m in Sources */,
-				9B6B1EDD1D1895A50008B45D /* ConnectionScene.m in Sources */,
 				9B6B1ED31D18944F0008B45D /* LoginScene.m in Sources */,
 				7A59498E19E3941300F65F90 /* AppDelegate.m in Sources */,
 				9B2430801D1C849D00F5DFC1 /* NCMCDeviceInfo.m in Sources */,
 				9B6B1ED81D1895860008B45D /* SettingScene.m in Sources */,
 				9B1F83CF1D19B5AF00837DA1 /* NCMCBluetoothLEManager.m in Sources */,
+				9B2A23631D2428E800C6EEC5 /* ChatRoomScene.m in Sources */,
 				9B1F83DE1D19CFCE00837DA1 /* NCMCMessageData.m in Sources */,
 				9B28F0281D219148008B35B3 /* NCMCAlertView.m in Sources */,
 				9B6B1EEE1D1899850008B45D /* MultiplayerController.m in Sources */,
@@ -941,7 +941,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B6B1EDC1D1895A50008B45D /* ConnectionScene.m in Sources */,
+				9B2A23621D2428E800C6EEC5 /* ChatRoomScene.m in Sources */,
 				9B6B1ED21D18944F0008B45D /* LoginScene.m in Sources */,
 				9B24307F1D1C849D00F5DFC1 /* NCMCDeviceInfo.m in Sources */,
 				9B1F83ED1D19E1E400837DA1 /* NCMCPeripheralInfo.m in Sources */,
@@ -960,9 +960,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B73789871807631A0076A88C /* main.m in Sources */,
+				9B2A23611D2428E800C6EEC5 /* ChatRoomScene.m in Sources */,
 				9B1F83C71D19AEEF00837DA1 /* NCMCPeerID.m in Sources */,
 				7A046D8C19E8A20E004C4763 /* LobbyScene.m in Sources */,
-				9B6B1EDB1D1895A50008B45D /* ConnectionScene.m in Sources */,
 				9B6B1ED11D18944F0008B45D /* LoginScene.m in Sources */,
 				9B1F83C91D19AEEF00837DA1 /* NCMCSession.m in Sources */,
 				9B1F83CD1D19B5AF00837DA1 /* NCMCBluetoothLEManager.m in Sources */,

@@ -26,6 +26,11 @@
     return self;
 }
 
+-(Boolean)isDeviceReady
+{
+    return [[NCMCBluetoothLEManager instance]isDeviceReady];
+}
+
 -(Boolean)startBrowsingForPeers
 {
     return [[NCMCBluetoothLEManager instance]startBrowsing];

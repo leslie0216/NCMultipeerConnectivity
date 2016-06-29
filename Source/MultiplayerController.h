@@ -23,12 +23,14 @@
 
 + (MultiplayerController *) instance;
 
-// SETUP FUNCS
 - (void) initializeControllerForNewMatch;
 - (void) createServerHostedGame;
 - (void) joinServerHostedGame;
 - (void) disconnect;
 -(void) startHost;
 -(void) startClient;
+
+-(void)sendData:(NSData*)data to:(NSString*)name;
+-(void)gotoChatRoom;
 
 @end

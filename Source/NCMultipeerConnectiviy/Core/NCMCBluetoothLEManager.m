@@ -658,7 +658,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
             if (centralDevice != nil) {
                 
                 NSArray* targets = @[centralDevice];
-                [self.peripheralManager updateValue:[data data] forCharacteristic:self.sendCharacteristic onSubscribedCentrals:targets];
+                didSent = [self.peripheralManager updateValue:[data data] forCharacteristic:self.sendCharacteristic onSubscribedCentrals:targets];
                 
                 if (!didSent) {
                     CCLOG(@"message didn't send, break.");
