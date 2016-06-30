@@ -56,6 +56,19 @@ typedef enum NCMCSystemMessageType {
     }
 }
 
+-(NSArray<NCMCPeerID*>*)getConnectedPeers
+{
+    NSMutableArray* peers = [[NSMutableArray alloc]init];
+    NSEnumerator *enmuerator = [self.connectedDevices objectEnumerator];
+    
+    for (NCMCDeviceInfo *info in enmuerator) {
+        NCMCPeerID *peerID= [[NCMCPeerID alloc]initWithDisplayName:info.name andIdentifier:info.identifier];
+        [peers addObject:peerID];
+    }
+    
+    return peers;
+}
+
 -(void)notifyPeerStateChanged:(NCMCPeerID *)peerID newState:(NCMCSessionState)state
 {
     if (self.delegate != nil && [self.delegate respondsToSelector:@selector(session:peer:didChangeState:)]) {

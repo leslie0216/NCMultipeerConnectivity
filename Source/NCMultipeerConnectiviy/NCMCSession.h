@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 -(void)sendData:(NSData *)data toPeers:(NSArray<NCMCPeerID *> *)peerIDs;
 
+-(NSArray<NCMCPeerID*>*)getConnectedPeers;
+
 @property (weak, NS_NONATOMIC_IOSONLY, nullable) id<NCMCSessionDelegate> delegate;
 
 @end
