@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NCMCSession.h"
-#import "NCMCCentralService.h"
-#import "NCMCPeripheralService.h"
+#import "NCMultipeerConnectiviy/NCMCSession.h"
+#import "NCMultipeerConnectiviy/NCMCCentralService.h"
+#import "NCMultipeerConnectiviy/NCMCPeripheralService.h"
 
 @interface MultiplayerController : NSObject<NCMCSessionDelegate, NCMCCentralServiceDelegate, NCMCPeripheralServiceDelegate, UIAlertViewDelegate>
 
@@ -30,7 +30,7 @@
 -(void) startHost;
 -(void) startClient;
 
--(void)sendData:(NSData*)data to:(NSString*)name;
+-(void)sendData:(NSData*)data to:(NSString*)name  withMode:(NCMCSessionSendDataMode)mode;
 -(void)gotoChatRoom;
 
 @end

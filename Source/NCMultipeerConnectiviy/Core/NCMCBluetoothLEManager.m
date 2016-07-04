@@ -12,7 +12,8 @@
 #import "NCMCPeerID+Core.h"
 
 #define TRANSFER_CHARACTERISTIC_MSG_FROM_PERIPHERAL_UUID    @"B7020F32-5170-4F62-B078-E5C231B71B3F"
-#define TRANSFER_CHARACTERISTIC_MSG_FROM_CENTRAL_UUID    @"0E182478-7DC7-43D2-9B52-06FE34B325CE"
+#define TRANSFER_CHARACTERISTIC_MSG_FROM_CENTRAL_WITH_RESPONSE_UUID    @"0E182478-7DC7-43D2-9B52-06FE34B325CE"
+#define TRANSFER_CHARACTERISTIC_MSG_FROM_CENTRAL_WITHOUT_RESPONSE_UUID    @"541300E2-99C2-4319-A5B9-98E96053D2C9"
 
 @interface NCMCBluetoothLEManager()
 {
@@ -30,7 +31,8 @@
 // peripheral properties
 @property (strong, nonatomic) CBPeripheralManager *peripheralManager;
 @property (strong, nonatomic) CBMutableCharacteristic *sendCharacteristic;
-@property (strong, nonatomic) CBMutableCharacteristic *receiveCharacteristic;
+@property (strong, nonatomic) CBMutableCharacteristic *receiveWithResponseCharacteristic;
+@property (strong, nonatomic) CBMutableCharacteristic *receiveWithoutResponseCharacteristic;
 @property (strong, nonatomic) NSMutableDictionary<NSString*, CBCentral*> *connectedCentrals; // key:UUIDString value:CBCentral
 
 
@@ -38,7 +40,7 @@
 
 @implementation NCMCBluetoothLEManager
 
-@synthesize isCentral, session, concurrentBluetoothLEDelegateQueue, serialDataSendingQueue, centralManager, peripheralManager, sendCharacteristic, receiveCharacteristic, isDeviceReady;
+@synthesize isCentral, session, concurrentBluetoothLEDelegateQueue, serialDataSendingQueue, centralManager, peripheralManager, sendCharacteristic, receiveWithResponseCharacteristic, receiveWithoutResponseCharacteristic, isDeviceReady;
 
 static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 
@@ -119,7 +121,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 /*                          MESSAGE   FUNCTIONS                        */
 /***********************************************************************/
 -(NSArray*)makeMsg:(NSData*)msg byCapability:(NSUInteger)capacity {
-    CCLOG(@"makeMsg msg length = %lu, capacity = %lu", (unsigned long)msg.length, (unsigned long)capacity);
+    NSLog(@"makeMsg msg length = %lu, capacity = %lu", (unsigned long)msg.length, (unsigned long)capacity);
     NSMutableArray *messageArray = [[NSMutableArray alloc]init];
     
     NSInteger limitation = capacity -  2;
@@ -174,7 +176,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
             if (data != nil) {
                 [data clearData];
             } else {
-                data = [[NCMCMessageData alloc]initWithDeviceUUID:uuid];
+                data = [[NCMCMessageData alloc]initWithDeviceUUID:uuid andIsReliable:YES];
             }
             [data addData:msgData];
             
@@ -260,7 +262,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 {
     if (self.isDeviceReady) {
         [self.centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:self.session.serviceID]]  options:@{CBCentralManagerScanOptionAllowDuplicatesKey: @NO}] ;
-        CCLOG(@"BluetoothLE central scanning started");
+        NSLog(@"BluetoothLE central scanning started");
     }
     
     return self.isDeviceReady;
@@ -275,7 +277,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 -(void)invitePeer:(NCMCPeerID *)peerID
 {
     NCMCPeripheralInfo *info =  self.discoveredPeripherals[peerID.identifier];
-    CCLOG(@"Connecting to peripheral name = %@ id = %@", info.name, peerID.identifier);
+    NSLog(@"Connecting to peripheral name = %@ id = %@", info.name, peerID.identifier);
     [self.centralManager connectPeripheral:info.peripheral options:nil];
 }
 
@@ -309,7 +311,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
     }
 }
 
--(void)sendCentralData : (NSData*)data toPerihperal:(NSString*)identifier
+-(void)sendCentralData : (NSData*)data toPerihperal:(NSString*)identifier  withMode:(NCMCSessionSendDataMode)mode
 {
     NCMCPeripheralInfo *info = self.discoveredPeripherals[(NSString*)identifier];
     if (info) {
@@ -318,10 +320,11 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
         }
         
         NSArray *msgs = [self makeMsg:data byCapability:[info.peripheral maximumWriteValueLengthForType: CBCharacteristicWriteWithResponse]];
+        Boolean isReliable = ((mode == NCMCSessionSendDataReliable) ? YES : NO);
         
         dispatch_async(self.serialDataSendingQueue, ^{
             for (NSData *msg in msgs) {
-                NCMCMessageData *msgData = [[NCMCMessageData alloc]initWithDeviceUUID:info.peripheral.identifier.UUIDString];
+                NCMCMessageData *msgData = [[NCMCMessageData alloc]initWithDeviceUUID:info.peripheral.identifier.UUIDString andIsReliable:isReliable];
                 [msgData addData:msg];
                 [dataToSend addObject:msgData];
             }
@@ -341,8 +344,14 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
         for (NCMCMessageData *data in dataToSend){
             NCMCPeripheralInfo *info = self.discoveredPeripherals[[data deviceUUID]];
             if (info != nil) {
-                [info.peripheral writeValue:[data data] forCharacteristic:info.writeCharacteristic type:CBCharacteristicWriteWithResponse];
-                CCLOG(@"sendDataToClients dataSize = %lu", (unsigned long)[data data].length);
+                if ([data isReliable]) {
+                    [info.peripheral writeValue:[data data] forCharacteristic:info.writeWithResponseCharacteristic type:CBCharacteristicWriteWithResponse];
+                    NSLog(@"sendDataToClients reliable dataSize = %lu", (unsigned long)[data data].length);
+                } else {
+                    [info.peripheral writeValue:[data data] forCharacteristic:info.writeWithoutResponseCharacteristic type:CBCharacteristicWriteWithoutResponse];
+                    NSLog(@"sendDataToClients unreliable dataSize = %lu", (unsigned long)[data data].length);
+                }
+                
             }
         }
         
@@ -354,7 +363,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central
 {
     if (central.state != CBCentralManagerStatePoweredOn) {
-        CCLOG(@"Bluetooth is OFF !!!");
+        NSLog(@"Bluetooth is OFF !!!");
 
         if (self.centralService != nil) {
             NSError* error = [self errnoErrorWithReason:@"Bluetooth Off"];
@@ -382,12 +391,13 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
     NSString* name = advertisementData[CBAdvertisementDataLocalNameKey];
     
     if (self.discoveredPeripherals[peripheral.identifier.UUIDString] == nil) {
-        CCLOG(@"Discovered %@ at %@", peripheral.name, RSSI);
+        NSLog(@"Discovered %@ at %@", peripheral.name, RSSI);
         
         NCMCPeripheralInfo *info = [[NCMCPeripheralInfo alloc]init];
         info.peripheral = peripheral;
         info.readCharacteristic = nil;
-        info.writeCharacteristic = nil;
+        info.writeWithResponseCharacteristic = nil;
+        info.writeWithoutResponseCharacteristic = nil;
         info.name = name;
         self.discoveredPeripherals[peripheral.identifier.UUIDString] = info;
         peripheral.delegate = self;
@@ -407,7 +417,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
         [self.discoveredPeripherals removeObjectForKey:peripheral.identifier.UUIDString];
     } else {
         // shouldn't be here
-        CCLOG(@"error!!!  cannot find peripheral in discoveredPeripherals");
+        NSLog(@"error!!!  cannot find peripheral in discoveredPeripherals");
     }
     
     [self.centralManager cancelPeripheralConnection:peripheral];
@@ -418,19 +428,19 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
     NCMCPeripheralInfo *info = self.discoveredPeripherals[peripheral.identifier.UUIDString];
     if (!info) {
         // shouldn't be here
-        CCLOG(@"error!!!  cannot find peripheral in discoveredPeripherals");
+        NSLog(@"error!!!  cannot find peripheral in discoveredPeripherals");
         return;
     }
     
-    CCLOG(@"Connected to %@", info.name);
-    CCLOG(@"Trying to find transfer service in %@", info.name);
+    NSLog(@"Connected to %@", info.name);
+    NSLog(@"Trying to find transfer service in %@", info.name);
 
     [peripheral discoverServices:@[[CBUUID UUIDWithString:self.session.serviceID]]];
 }
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
 {
-    CCLOG(@"didDisconnectPeripheral %@", peripheral.identifier.UUIDString);
+    NSLog(@"didDisconnectPeripheral %@", peripheral.identifier.UUIDString);
     // TODO session notify stat
     NCMCPeripheralInfo *info = self.discoveredPeripherals[peripheral.identifier.UUIDString];
     if (info) {
@@ -455,12 +465,12 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
     NCMCPeripheralInfo *info = self.discoveredPeripherals[peripheral.identifier.UUIDString];
     if (!info) {
         // shouldn't be here
-        CCLOG(@"error!!!  cannot find peripheral in discoveredPeripherals");
+        NSLog(@"error!!!  cannot find peripheral in discoveredPeripherals");
         return;
     }
     if (error)
     {
-        CCLOG(@"discovery service failed : %@", error.localizedDescription);
+        NSLog(@"discovery service failed : %@", error.localizedDescription);
         
         NCMCPeerID* peerID = [[NCMCPeerID alloc]initWithDisplayName:info.name andIdentifier:peripheral.identifier.UUIDString];
         [self.centralService notifyLostPeer:peerID];
@@ -470,11 +480,11 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
         return;
     }
     
-    CCLOG(@"transfer service found in %@", info.name);
+    NSLog(@"transfer service found in %@", info.name);
     
     for (CBService *service in peripheral.services)
     {
-        [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_MSG_FROM_PERIPHERAL_UUID], [CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_MSG_FROM_CENTRAL_UUID]] forService:service];
+        [peripheral discoverCharacteristics:@[[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_MSG_FROM_PERIPHERAL_UUID], [CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_MSG_FROM_CENTRAL_WITH_RESPONSE_UUID], [CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_MSG_FROM_CENTRAL_WITHOUT_RESPONSE_UUID]] forService:service];
     }
 }
 
@@ -483,11 +493,11 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
     NCMCPeripheralInfo *info = self.discoveredPeripherals[peripheral.identifier.UUIDString];
     if (!info) {
         // shouldn't be here
-        CCLOG(@"error!!!  cannot find peripheral in discoveredPeripherals");
+        NSLog(@"error!!!  cannot find peripheral in discoveredPeripherals");
         return;
     }
     if (error) {
-        CCLOG(@"discovery Characteristics failed : %@", error.localizedDescription);
+        NSLog(@"discovery Characteristics failed : %@", error.localizedDescription);
         
         NCMCPeerID* peerID = [[NCMCPeerID alloc]initWithDisplayName:info.name andIdentifier:peripheral.identifier.UUIDString];
         [self.centralService notifyLostPeer:peerID];
@@ -498,7 +508,8 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
     }
     
     BOOL isReadCharFound = NO;
-    BOOL isWriteCharFoud = NO;
+    BOOL isWriteWithResponseCharFoud = NO;
+    BOOL isWriteWithoutResponseCharFoud = NO;
     
     for (CBCharacteristic *characteristic in service.characteristics)
     {
@@ -509,17 +520,23 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
             isReadCharFound = YES;
         }
         
-        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_MSG_FROM_CENTRAL_UUID]])
+        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_MSG_FROM_CENTRAL_WITH_RESPONSE_UUID]])
         {
-            info.writeCharacteristic = characteristic;
-            isWriteCharFoud = YES;
+            info.writeWithResponseCharacteristic = characteristic;
+            isWriteWithResponseCharFoud = YES;
+        }
+        
+        if ([characteristic.UUID isEqual:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_MSG_FROM_CENTRAL_WITHOUT_RESPONSE_UUID]])
+        {
+            info.writeWithoutResponseCharacteristic = characteristic;
+            isWriteWithoutResponseCharFoud = YES;
         }
     }
 #if __CC_PLATFORM_IOS
-    CCLOG(@"peripheral maxResponse : %lu , maxNoResponse : %lu", (unsigned long)[peripheral maximumWriteValueLengthForType: CBCharacteristicWriteWithResponse], (unsigned long)[peripheral maximumWriteValueLengthForType: CBCharacteristicWriteWithoutResponse]);
+    NSLog(@"peripheral maxResponse : %lu , maxNoResponse : %lu", (unsigned long)[peripheral maximumWriteValueLengthForType: CBCharacteristicWriteWithResponse], (unsigned long)[peripheral maximumWriteValueLengthForType: CBCharacteristicWriteWithoutResponse]);
 #endif
    NCMCPeerID* peerID = [[NCMCPeerID alloc]initWithDisplayName:info.name andIdentifier:peripheral.identifier.UUIDString];
-    if (isReadCharFound && isWriteCharFoud) {
+    if (isReadCharFound && isWriteWithResponseCharFoud && isWriteWithoutResponseCharFoud) {
         // send central info to peripheral and wait for perpheral confirm the connection
         if (self.session != nil) {
             [self.session sendCentralConnectionRequestToPeer:peerID];
@@ -539,7 +556,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
     }
     
     if (error != nil) {
-        CCLOG(@"set notification falied : %@", error);
+        NSLog(@"set notification falied : %@", error);
         [self.discoveredPeripherals removeObjectForKey:peripheral.identifier.UUIDString];
         [self.centralManager cancelPeripheralConnection:peripheral];
     }
@@ -551,7 +568,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 {
     if (error)
     {
-        CCLOG(@"peripheral update value failed for characteristic %@ with error : %@", characteristic, error);
+        NSLog(@"peripheral update value failed for characteristic %@ with error : %@", characteristic, error);
         return;
     }
     
@@ -561,7 +578,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
         return;
     }
     
-    //CCLOG(@"centralManager receive data length %u", characteristic.value.length);
+    //NSLog(@"centralManager receive data length %u", characteristic.value.length);
     
     [self processMsg:characteristic.value from:peripheral.identifier.UUIDString];
 }
@@ -570,12 +587,12 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 {
     if (error)
     {
-        CCLOG(@"Central write Error : %@", error);
+        NSLog(@"Central write Error : %@", error);
         return;
     }
     
     NCMCPeripheralInfo *info = self.discoveredPeripherals[peripheral.identifier.UUIDString];
-    CCLOG(@"didWriteValueForCharacteristic to %@", info.name);
+    NSLog(@"didWriteValueForCharacteristic to %@", info.name);
 }
 // end CBPeripheralDelegate
 
@@ -604,7 +621,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 {
     if (self.isDeviceReady && self.session != nil) {
         [self.peripheralManager startAdvertising:@{CBAdvertisementDataLocalNameKey:self.session.myPeerID.displayName,CBAdvertisementDataServiceUUIDsKey:@[[CBUUID UUIDWithString:self.session.serviceID]]}];
-        CCLOG(@"peripheralManager startAdvertising...");
+        NSLog(@"peripheralManager startAdvertising...");
     }
     
     return self.isDeviceReady;
@@ -632,7 +649,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
         
         dispatch_async(self.serialDataSendingQueue, ^{
             for (NSData *msg in msgs) {
-                NCMCMessageData *msgData = [[NCMCMessageData alloc]initWithDeviceUUID:identifier];
+                NCMCMessageData *msgData = [[NCMCMessageData alloc]initWithDeviceUUID:identifier andIsReliable:YES];
                 [msgData addData:msg];
                 [dataToSend addObject:msgData];
             }
@@ -661,11 +678,11 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
                 didSent = [self.peripheralManager updateValue:[data data] forCharacteristic:self.sendCharacteristic onSubscribedCentrals:targets];
                 
                 if (!didSent) {
-                    CCLOG(@"message didn't send, break.");
+                    NSLog(@"message didn't send, break.");
                     break;
                 } else {
                     ++sendCount;
-                    CCLOG(@"message send, length = %d", (int)[data data].length);
+                    NSLog(@"message send, length = %d", (int)[data data].length);
                 }
             }
         }
@@ -678,7 +695,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 - (void)peripheralManagerDidUpdateState:(CBPeripheralManager *)peripheral
 {
     if (peripheral.state != CBPeripheralManagerStatePoweredOn) {
-        CCLOG(@"Bluetooth is OFF !!!");
+        NSLog(@"Bluetooth is OFF !!!");
         
         if (self.peripheralService != nil) {
             NSError* error = [self errnoErrorWithReason:@"Bluetooth Off"];
@@ -691,11 +708,13 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
     if (peripheral.state == CBPeripheralManagerStatePoweredOn && self.session != nil) {
         self.sendCharacteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_MSG_FROM_PERIPHERAL_UUID] properties:CBCharacteristicPropertyNotify | CBCharacteristicPropertyRead value:nil permissions:CBAttributePermissionsReadable];
         
-        self.receiveCharacteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_MSG_FROM_CENTRAL_UUID] properties:CBCharacteristicPropertyWrite value:nil permissions:CBAttributePermissionsWriteable];
+        self.receiveWithResponseCharacteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_MSG_FROM_CENTRAL_WITH_RESPONSE_UUID] properties:CBCharacteristicPropertyWrite value:nil permissions:CBAttributePermissionsWriteable];
+        
+        self.receiveWithoutResponseCharacteristic = [[CBMutableCharacteristic alloc] initWithType:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_MSG_FROM_CENTRAL_WITHOUT_RESPONSE_UUID] properties:CBCharacteristicPropertyWriteWithoutResponse value:nil permissions:CBAttributePermissionsWriteable];
         
         CBMutableService *transferService = [[CBMutableService alloc] initWithType:[CBUUID UUIDWithString:self.session.serviceID] primary:YES];
         
-        transferService.characteristics = @[self.sendCharacteristic, self.receiveCharacteristic];
+        transferService.characteristics = @[self.sendCharacteristic, self.receiveWithResponseCharacteristic, receiveWithoutResponseCharacteristic];
         
         [self.peripheralManager addService:transferService];
         
@@ -711,7 +730,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 
 - (void)peripheralManager:(CBPeripheralManager *)peripheral central:(CBCentral *)central didUnsubscribeFromCharacteristic:(CBCharacteristic *)characteristic
 {
-    CCLOG(@"didUnsubscribeToCharacteristic central : %@", central.identifier);
+    NSLog(@"didUnsubscribeToCharacteristic central : %@", central.identifier);
     if ([self.sendCharacteristic isEqual:characteristic]) {
         
         [self.connectedCentrals removeObjectForKey:central.identifier.UUIDString];
@@ -724,7 +743,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 
 - (void)peripheralManager:(CBPeripheralManager *)peripheral central:(CBCentral *)central didSubscribeToCharacteristic:(CBCharacteristic *)characteristic
 {
-    CCLOG(@"didSubscribeToCharacteristic central.maximumUpdateValueLength = %lu" , (unsigned long)central.maximumUpdateValueLength);
+    NSLog(@"didSubscribeToCharacteristic central.maximumUpdateValueLength = %lu" , (unsigned long)central.maximumUpdateValueLength);
     if (self.connectedCentrals == nil) {
         self.connectedCentrals = [[NSMutableDictionary alloc]init];
     }
@@ -740,13 +759,13 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 - (void)peripheralManager:(CBPeripheralManager *)peripheral didReceiveWriteRequests:(NSArray<CBATTRequest *> *)requests
 {
     for (CBATTRequest *request in requests) {
-        if ([request.characteristic.UUID isEqual:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_MSG_FROM_CENTRAL_UUID]]) {
+        if ([request.characteristic.UUID isEqual:[CBUUID UUIDWithString:TRANSFER_CHARACTERISTIC_MSG_FROM_CENTRAL_WITH_RESPONSE_UUID]]) {
             [peripheral respondToRequest:request    withResult:CBATTErrorSuccess];
-            //CCLOG(@"peripheralManager receive data length %u", request.value.length);
-            NSMutableString *identifier = [NSMutableString stringWithString:request.central.identifier.UUIDString];
-
-            [self processMsg:request.value from:identifier];
+            //NSLog(@"peripheralManager receive response data length %u", request.value.length);
         }
+        NSMutableString *identifier = [NSMutableString stringWithString:request.central.identifier.UUIDString];
+        
+        [self processMsg:request.value from:identifier];
     }
 }
 // end CBPeripheralManagerDelegate

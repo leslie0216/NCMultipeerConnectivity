@@ -73,21 +73,21 @@
     int i = 0;
     NSString* localName = [[MultiplayerController instance]localName];
     for(NCMCPeerID* pd in playerData) {
-        if( i < 3 && ![localName isEqualToString:[pd getDisplayName]]) {
+        if( i < 3 && ![localName isEqualToString:[self stringForMCPeerDisplayName:[pd getDisplayName]]]) {
             if (i == 0) {
-                lbPlayer1.string = [pd getDisplayName];
+                lbPlayer1.string = [self stringForMCPeerDisplayName:[pd getDisplayName]];
                 lbPlayer1.color = [CCColor whiteColor];
                 btnSendTo1.enabled = YES;
             }
             
             if (i == 1) {
-                lbPlayer2.string = [pd getDisplayName];
+                lbPlayer2.string = [self stringForMCPeerDisplayName:[pd getDisplayName]];
                 lbPlayer2.color = [CCColor whiteColor];
                 btnSendTo2.enabled = YES;
             }
             
             if (i == 2) {
-                lbPlayer3.string = [pd getDisplayName];
+                lbPlayer3.string = [self stringForMCPeerDisplayName:[pd getDisplayName]];
                 lbPlayer3.color = [CCColor whiteColor];
                 btnSendTo3.enabled = YES;
             }
@@ -109,7 +109,7 @@
     NSString* msg = tfMsg.string;
     if (msg.length > 0) {
         NSData* data = [msg dataUsingEncoding:NSUTF8StringEncoding];
-        [[MultiplayerController instance] sendData:data to:lbPlayer1.string];
+        [[MultiplayerController instance] sendData:data to:lbPlayer1.string withMode:NCMCSessionSendDataUnreliable];
     }
 }
 
@@ -118,7 +118,7 @@
     NSString* msg = tfMsg.string;
     if (msg.length > 0) {
         NSData* data = [msg dataUsingEncoding:NSUTF8StringEncoding];
-        [[MultiplayerController instance] sendData:data to:lbPlayer2.string];
+        [[MultiplayerController instance] sendData:data to:lbPlayer2.string withMode:NCMCSessionSendDataUnreliable];
     }
 }
 
@@ -127,7 +127,7 @@
     NSString* msg = tfMsg.string;
     if (msg.length > 0) {
         NSData* data = [msg dataUsingEncoding:NSUTF8StringEncoding];
-        [[MultiplayerController instance] sendData:data to:lbPlayer3.string];
+        [[MultiplayerController instance] sendData:data to:lbPlayer3.string withMode:NCMCSessionSendDataUnreliable];
     }
 }
 
@@ -146,5 +146,13 @@
     [self setPlayerList];
 }
 
+- (NSString*) stringForMCPeerDisplayName:(NSString*)displayName {
+    if([displayName length] > 12) {
+        NSString* realDisplayName = [displayName substringFromIndex:12];
+        return realDisplayName;
+    }
+    return @"Unknown Player";
+    
+}
 
 @end

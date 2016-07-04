@@ -1,6 +1,5 @@
 #import "LobbyScene.h"
 #import "MultiplayerController.h"
-#import "NCMultipeerConnectiviy/NCMCPeerID.h"
 #import "Parameters.h"
 
 @implementation LobbyScene
@@ -98,22 +97,22 @@
     for(NCMCPeerID* pd in playerData) {
         if( i < 4) {
             if (i == 0) {
-                lbPlayer1.string = [pd getDisplayName];
+                lbPlayer1.string = [self stringForMCPeerDisplayName:[pd getDisplayName]];
                 lbPlayer1.color = [CCColor whiteColor];
             }
             
             if (i == 1) {
-                lbPlayer2.string = [pd getDisplayName];
+                lbPlayer2.string = [self stringForMCPeerDisplayName:[pd getDisplayName]];
                 lbPlayer2.color = [CCColor whiteColor];
             }
             
             if (i == 2) {
-                lbPlayer3.string = [pd getDisplayName];
+                lbPlayer3.string = [self stringForMCPeerDisplayName:[pd getDisplayName]];
                 lbPlayer3.color = [CCColor whiteColor];
             }
             
             if (i == 3) {
-                lbPlayer4.string = [pd getDisplayName];
+                lbPlayer4.string = [self stringForMCPeerDisplayName:[pd getDisplayName]];
                 lbPlayer4.color = [CCColor whiteColor];
             }
         }
@@ -130,6 +129,15 @@
             btnStart.enabled = NO;
         }
     }
+    
+}
+
+- (NSString*) stringForMCPeerDisplayName:(NSString*)displayName {
+    if([displayName length] > 12) {
+        NSString* realDisplayName = [displayName substringFromIndex:12];
+        return realDisplayName;
+    }
+    return @"Unknown Player";
     
 }
 
