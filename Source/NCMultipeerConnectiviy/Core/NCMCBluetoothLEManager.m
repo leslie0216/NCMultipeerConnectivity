@@ -19,6 +19,8 @@
 {
     NSMutableArray<NCMCMessageData*> *recMsgArray;
     NSMutableArray<NCMCMessageData*> *dataToSend;
+    
+    Boolean isBrowsingOrAdvertising;
 }
 
 @property (nonatomic, strong) dispatch_queue_t concurrentBluetoothLEDelegateQueue;
@@ -76,9 +78,11 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
     self.centralService = nil;
     self.peripheralService = nil;
     self.session = nil;
+    
     if (self.centralManager != nil) {
         [self.centralManager setDelegate:nil];
     }
+    
     self.centralManager = nil;
     if (self.peripheralManager != nil) {
         [self.peripheralManager setDelegate:nil];
@@ -89,6 +93,8 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
     
     self.concurrentBluetoothLEDelegateQueue = nil;
     self.serialDataSendingQueue = nil;
+    
+    isBrowsingOrAdvertising = NO;
 }
 
 -(void)setupDispatchQueue
@@ -264,6 +270,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
     self.centralService = service;
     self.isCentral = YES;
     self.isDeviceReady = NO;
+    isBrowsingOrAdvertising = NO;
     [self.session setSelfAsCentral];
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:self.concurrentBluetoothLEDelegateQueue];
 }
@@ -273,7 +280,11 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
     if (self.isDeviceReady) {
         [self.centralManager scanForPeripheralsWithServices:@[[CBUUID UUIDWithString:self.session.serviceID]]  options:@{CBCentralManagerScanOptionAllowDuplicatesKey: @NO}] ;
         NSLog(@"BluetoothLE central scanning started");
+    } else {
+        NSLog(@"Device is not ready, scheduled for start later");
     }
+    
+    isBrowsingOrAdvertising = YES;
     
     return self.isDeviceReady;
 }
@@ -282,6 +293,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 {
     //self.centralService = nil;
     [self.centralManager stopScan];
+    isBrowsingOrAdvertising = NO;
 }
 
 -(void)invitePeer:(NCMCPeerID *)peerID
@@ -383,11 +395,17 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
             
             [self.centralService notifyDidNotStartBrowsingForPeers:error];
         }
+        
+        self.isDeviceReady = NO;
+        
         return;
     }
     
     if (central.state == CBCentralManagerStatePoweredOn) {
         self.isDeviceReady = YES;
+        if (isBrowsingOrAdvertising) {
+            [self startBrowsing];
+        }
     }
 }
 
@@ -627,6 +645,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
     self.peripheralService = service;
     self.isCentral = NO;
     self.isDeviceReady = NO;
+    isBrowsingOrAdvertising = NO;
     self.peripheralManager = [[CBPeripheralManager alloc] initWithDelegate:self queue:self.concurrentBluetoothLEDelegateQueue];
 }
 
@@ -635,7 +654,11 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
     if (self.isDeviceReady && self.session != nil) {
         [self.peripheralManager startAdvertising:@{CBAdvertisementDataLocalNameKey:self.session.myPeerID.displayName,CBAdvertisementDataServiceUUIDsKey:@[[CBUUID UUIDWithString:self.session.serviceID]]}];
         NSLog(@"peripheralManager startAdvertising...");
+    } else {
+        NSLog(@"Device is not ready, scheduled for start later");
     }
+    
+    isBrowsingOrAdvertising = YES;
     
     return self.isDeviceReady;
 }
@@ -644,6 +667,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
 {
     //self.peripheralService = nil;
     [self.peripheralManager stopAdvertising];
+    isBrowsingOrAdvertising = NO;
 }
 
 -(void)sendPeriheralData : (NSData*)data toCentral:(NSString*)identifier
@@ -715,6 +739,9 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
             
             [self.peripheralService notifyDidNotStartAdvertising:error];
         }
+        
+        self.isDeviceReady = NO;
+        
         return;
     }
     
@@ -738,6 +765,10 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
         }
         
         self.isDeviceReady = YES;
+        
+        if (isBrowsingOrAdvertising) {
+            [self startAdvertising];
+        }
     }
 }
 

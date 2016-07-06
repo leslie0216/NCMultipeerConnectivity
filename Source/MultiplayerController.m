@@ -91,16 +91,14 @@ static MultiplayerController *_sharedMultiplayerController = nil;
 -(void)startHost
 {
     if (self.isHost) {
-        while (![self.currentCentralService startBrowsingForPeers]) {
-        }
+        [self.currentCentralService startBrowsingForPeers];
     }
 }
 
 -(void)startClient
 {
     if (!self.isHost) {
-        while (![self.currentPeripheralService startAdvertisingPeer]) {
-        }
+        [self.currentPeripheralService startAdvertisingPeer];
     }
 }
 
