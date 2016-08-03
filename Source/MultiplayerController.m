@@ -33,7 +33,7 @@ static MultiplayerController *_sharedMultiplayerController = nil;
 -(void)initializeControllerForNewMatch
 {
     NSString* uid = [NSUUID UUID].UUIDString;
-    NSString* suid = [uid substringFromIndex:24];
+    NSString* suid = [uid substringFromIndex:34];
     NSString* displayName = [NSString stringWithFormat:@"%@%@",suid, self.localName];
     
     NCMCPeerID *peer = [[NCMCPeerID alloc]initWithDisplayName:displayName];
@@ -195,8 +195,8 @@ static MultiplayerController *_sharedMultiplayerController = nil;
 }
 
 - (NSString*) stringForMCPeerDisplayName:(NSString*)displayName {
-    if([displayName length] > 12) {
-        NSString* realDisplayName = [displayName substringFromIndex:12];
+    if([displayName length] > 2) {
+        NSString* realDisplayName = [displayName substringFromIndex:2];
         return realDisplayName;
     }
     return @"Unknown Player";

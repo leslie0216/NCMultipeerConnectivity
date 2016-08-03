@@ -147,8 +147,8 @@
 }
 
 - (NSString*) stringForMCPeerDisplayName:(NSString*)displayName {
-    if([displayName length] > 12) {
-        NSString* realDisplayName = [displayName substringFromIndex:12];
+    if([displayName length] > 2) {
+        NSString* realDisplayName = [displayName substringFromIndex:2];
         return realDisplayName;
     }
     return @"Unknown Player";
