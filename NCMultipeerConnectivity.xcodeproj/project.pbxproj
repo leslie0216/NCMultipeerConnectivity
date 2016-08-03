@@ -87,6 +87,7 @@
 		9B2A23631D2428E800C6EEC5 /* ChatRoomScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B2A23601D2428E800C6EEC5 /* ChatRoomScene.m */; };
 		9B3EC30B1D525C0500EF4C0E /* GPBProtocolBuffers.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B3EC2EF1D525C0500EF4C0E /* GPBProtocolBuffers.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		9B3EC30E1D525C2C00EF4C0E /* Messages.pbobjc.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B3EC30C1D525C2C00EF4C0E /* Messages.pbobjc.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		9B3EC3121D52618900EF4C0E /* NetworkLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B3EC3101D52618900EF4C0E /* NetworkLogger.m */; };
 		9B6B1ED11D18944F0008B45D /* LoginScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1ED01D18944F0008B45D /* LoginScene.m */; };
 		9B6B1ED21D18944F0008B45D /* LoginScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1ED01D18944F0008B45D /* LoginScene.m */; };
 		9B6B1ED31D18944F0008B45D /* LoginScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1ED01D18944F0008B45D /* LoginScene.m */; };
@@ -260,6 +261,8 @@
 		9B3EC30A1D525C0500EF4C0E /* GPBWireFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GPBWireFormat.h; path = Source/message/protobuf/GPBWireFormat.h; sourceTree = "<group>"; };
 		9B3EC30C1D525C2C00EF4C0E /* Messages.pbobjc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Messages.pbobjc.m; path = Source/message/build/Messages.pbobjc.m; sourceTree = "<group>"; };
 		9B3EC30D1D525C2C00EF4C0E /* Messages.pbobjc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Messages.pbobjc.h; path = Source/message/build/Messages.pbobjc.h; sourceTree = "<group>"; };
+		9B3EC3101D52618900EF4C0E /* NetworkLogger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NetworkLogger.m; path = Source/NetworkLogger.m; sourceTree = "<group>"; };
+		9B3EC3111D52618900EF4C0E /* NetworkLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NetworkLogger.h; path = Source/NetworkLogger.h; sourceTree = "<group>"; };
 		9B6B1ECF1D18944F0008B45D /* LoginScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginScene.h; path = Source/LoginScene.h; sourceTree = "<group>"; };
 		9B6B1ED01D18944F0008B45D /* LoginScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginScene.m; path = Source/LoginScene.m; sourceTree = "<group>"; };
 		9B6B1ED41D1895860008B45D /* SettingScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingScene.h; path = Source/SettingScene.h; sourceTree = "<group>"; };
@@ -591,6 +594,15 @@
 			name = protobuf;
 			sourceTree = "<group>";
 		};
+		9B3EC30F1D52617100EF4C0E /* NetworkLogger */ = {
+			isa = PBXGroup;
+			children = (
+				9B3EC3101D52618900EF4C0E /* NetworkLogger.m */,
+				9B3EC3111D52618900EF4C0E /* NetworkLogger.h */,
+			);
+			name = NetworkLogger;
+			sourceTree = "<group>";
+		};
 		9B6B1EE71D1898DA0008B45D /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
@@ -643,6 +655,7 @@
 				7A40362019DDEF0D007B6E8F /* Platforms */,
 				9B6B1EE71D1898DA0008B45D /* Scenes */,
 				9B6B1EE81D18990E0008B45D /* Controller */,
+				9B3EC30F1D52617100EF4C0E /* NetworkLogger */,
 			);
 			name = Source;
 			sourceTree = "<group>";
@@ -1044,6 +1057,7 @@
 				9B6B1ED11D18944F0008B45D /* LoginScene.m in Sources */,
 				9B3EC30B1D525C0500EF4C0E /* GPBProtocolBuffers.m in Sources */,
 				9B1F83C91D19AEEF00837DA1 /* NCMCSession.m in Sources */,
+				9B3EC3121D52618900EF4C0E /* NetworkLogger.m in Sources */,
 				9B1F83CD1D19B5AF00837DA1 /* NCMCBluetoothLEManager.m in Sources */,
 				9B24307E1D1C849D00F5DFC1 /* NCMCDeviceInfo.m in Sources */,
 				9B1F83C81D19AEEF00837DA1 /* NCMCPeripheralService.m in Sources */,
