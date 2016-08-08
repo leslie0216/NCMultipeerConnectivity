@@ -11,26 +11,7 @@
 #import "Parameters.h"
 #import "NetworkLogger.h"
 #import "Messages.pbobjc.h"
-
-@interface PingInfo : NSObject
-@property(assign, nonatomic)int token;
-@property(assign, nonatomic)CFTimeInterval startTime;
-@property(strong, nonatomic)NSMutableArray *timeIntervals;
-@property(assign, nonatomic)unsigned long totalCount;
-@property(assign, nonatomic)unsigned long currentCount;
-@property(assign, nonatomic)unsigned long number;
-
-@end
-
-@implementation PingInfo
-@synthesize token;
-@synthesize startTime;
-@synthesize timeIntervals;
-@synthesize totalCount;
-@synthesize currentCount;
-@synthesize number;
-
-@end
+#import "PingInfo.h"
 
 
 

@@ -103,6 +103,9 @@
 		9BB10CF71D551ACC00A038FD /* PackageRateScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB10CF61D551ACC00A038FD /* PackageRateScene.m */; };
 		9BB10CF81D551ACC00A038FD /* PackageRateScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB10CF61D551ACC00A038FD /* PackageRateScene.m */; };
 		9BB10CF91D551ACC00A038FD /* PackageRateScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB10CF61D551ACC00A038FD /* PackageRateScene.m */; };
+		9BD5F5791D58FEB600B1694D /* PingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD5F5781D58FEB600B1694D /* PingInfo.m */; };
+		9BD5F57A1D58FEB600B1694D /* PingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD5F5781D58FEB600B1694D /* PingInfo.m */; };
+		9BD5F57B1D58FEB600B1694D /* PingInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BD5F5781D58FEB600B1694D /* PingInfo.m */; };
 		B71F5911188484E7003F4D28 /* iPad-old.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5907188484E7003F4D28 /* iPad-old.png */; };
 		B71F5912188484E7003F4D28 /* iPad-old@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5908188484E7003F4D28 /* iPad-old@2x.png */; };
 		B71F5913188484E7003F4D28 /* iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5909188484E7003F4D28 /* iPad.png */; };
@@ -280,6 +283,8 @@
 		9BB10CEF1D551AB700A038FD /* PackageSizeScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PackageSizeScene.m; path = Source/PackageSizeScene.m; sourceTree = "<group>"; };
 		9BB10CF51D551ACC00A038FD /* PackageRateScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PackageRateScene.h; path = Source/PackageRateScene.h; sourceTree = "<group>"; };
 		9BB10CF61D551ACC00A038FD /* PackageRateScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PackageRateScene.m; path = Source/PackageRateScene.m; sourceTree = "<group>"; };
+		9BD5F5771D58FEB600B1694D /* PingInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PingInfo.h; path = Source/PingInfo.h; sourceTree = "<group>"; };
+		9BD5F5781D58FEB600B1694D /* PingInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PingInfo.m; path = Source/PingInfo.m; sourceTree = "<group>"; };
 		B71F5907188484E7003F4D28 /* iPad-old.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPad-old.png"; path = "Icons/iPad-old.png"; sourceTree = "<group>"; };
 		B71F5908188484E7003F4D28 /* iPad-old@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPad-old@2x.png"; path = "Icons/iPad-old@2x.png"; sourceTree = "<group>"; };
 		B71F5909188484E7003F4D28 /* iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iPad.png; path = Icons/iPad.png; sourceTree = "<group>"; };
@@ -628,6 +633,8 @@
 				9BB10CEF1D551AB700A038FD /* PackageSizeScene.m */,
 				9BB10CF51D551ACC00A038FD /* PackageRateScene.h */,
 				9BB10CF61D551ACC00A038FD /* PackageRateScene.m */,
+				9BD5F5771D58FEB600B1694D /* PingInfo.h */,
+				9BD5F5781D58FEB600B1694D /* PingInfo.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -1035,6 +1042,7 @@
 				7A59498E19E3941300F65F90 /* AppDelegate.m in Sources */,
 				9B2430801D1C849D00F5DFC1 /* NCMCDeviceInfo.m in Sources */,
 				9B6B1ED81D1895860008B45D /* SettingScene.m in Sources */,
+				9BD5F57B1D58FEB600B1694D /* PingInfo.m in Sources */,
 				9B1F83CF1D19B5AF00837DA1 /* NCMCBluetoothLEManager.m in Sources */,
 				9B2A23631D2428E800C6EEC5 /* ChatRoomScene.m in Sources */,
 				9B1F83DE1D19CFCE00837DA1 /* NCMCMessageData.m in Sources */,
@@ -1059,6 +1067,7 @@
 				9B1F83DD1D19CFCE00837DA1 /* NCMCMessageData.m in Sources */,
 				9B28F0271D219148008B35B3 /* NCMCAlertView.m in Sources */,
 				9B1F83CE1D19B5AF00837DA1 /* NCMCBluetoothLEManager.m in Sources */,
+				9BD5F57A1D58FEB600B1694D /* PingInfo.m in Sources */,
 				927F619E196C771E000F43EF /* LobbyScene.m in Sources */,
 				5B121030197484FA004C1E1D /* NCMultipeerConnectivityActivity.m in Sources */,
 			);
@@ -1081,6 +1090,7 @@
 				9B1F83CD1D19B5AF00837DA1 /* NCMCBluetoothLEManager.m in Sources */,
 				9B24307E1D1C849D00F5DFC1 /* NCMCDeviceInfo.m in Sources */,
 				9B1F83C81D19AEEF00837DA1 /* NCMCPeripheralService.m in Sources */,
+				9BD5F5791D58FEB600B1694D /* PingInfo.m in Sources */,
 				9B3EC30E1D525C2C00EF4C0E /* Messages.pbobjc.m in Sources */,
 				5B121038197487F2004C1E1D /* AppDelegate.m in Sources */,
 				9B1F83C61D19AEEF00837DA1 /* NCMCCentralService.m in Sources */,
