@@ -97,6 +97,12 @@
 		9B6B1EEC1D1899850008B45D /* MultiplayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1EEB1D1899850008B45D /* MultiplayerController.m */; };
 		9B6B1EED1D1899850008B45D /* MultiplayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1EEB1D1899850008B45D /* MultiplayerController.m */; };
 		9B6B1EEE1D1899850008B45D /* MultiplayerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9B6B1EEB1D1899850008B45D /* MultiplayerController.m */; };
+		9BB10CF01D551AB700A038FD /* PackageSizeScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB10CEF1D551AB700A038FD /* PackageSizeScene.m */; };
+		9BB10CF11D551AB700A038FD /* PackageSizeScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB10CEF1D551AB700A038FD /* PackageSizeScene.m */; };
+		9BB10CF21D551AB700A038FD /* PackageSizeScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB10CEF1D551AB700A038FD /* PackageSizeScene.m */; };
+		9BB10CF71D551ACC00A038FD /* PackageRateScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB10CF61D551ACC00A038FD /* PackageRateScene.m */; };
+		9BB10CF81D551ACC00A038FD /* PackageRateScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB10CF61D551ACC00A038FD /* PackageRateScene.m */; };
+		9BB10CF91D551ACC00A038FD /* PackageRateScene.m in Sources */ = {isa = PBXBuildFile; fileRef = 9BB10CF61D551ACC00A038FD /* PackageRateScene.m */; };
 		B71F5911188484E7003F4D28 /* iPad-old.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5907188484E7003F4D28 /* iPad-old.png */; };
 		B71F5912188484E7003F4D28 /* iPad-old@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5908188484E7003F4D28 /* iPad-old@2x.png */; };
 		B71F5913188484E7003F4D28 /* iPad.png in Resources */ = {isa = PBXBuildFile; fileRef = B71F5909188484E7003F4D28 /* iPad.png */; };
@@ -270,6 +276,10 @@
 		9B6B1EE41D1898340008B45D /* Parameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Parameters.h; path = Source/Parameters.h; sourceTree = "<group>"; };
 		9B6B1EEA1D1899850008B45D /* MultiplayerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MultiplayerController.h; path = Source/MultiplayerController.h; sourceTree = "<group>"; };
 		9B6B1EEB1D1899850008B45D /* MultiplayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MultiplayerController.m; path = Source/MultiplayerController.m; sourceTree = "<group>"; };
+		9BB10CEE1D551AB700A038FD /* PackageSizeScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PackageSizeScene.h; path = Source/PackageSizeScene.h; sourceTree = "<group>"; };
+		9BB10CEF1D551AB700A038FD /* PackageSizeScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PackageSizeScene.m; path = Source/PackageSizeScene.m; sourceTree = "<group>"; };
+		9BB10CF51D551ACC00A038FD /* PackageRateScene.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PackageRateScene.h; path = Source/PackageRateScene.h; sourceTree = "<group>"; };
+		9BB10CF61D551ACC00A038FD /* PackageRateScene.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PackageRateScene.m; path = Source/PackageRateScene.m; sourceTree = "<group>"; };
 		B71F5907188484E7003F4D28 /* iPad-old.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPad-old.png"; path = "Icons/iPad-old.png"; sourceTree = "<group>"; };
 		B71F5908188484E7003F4D28 /* iPad-old@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "iPad-old@2x.png"; path = "Icons/iPad-old@2x.png"; sourceTree = "<group>"; };
 		B71F5909188484E7003F4D28 /* iPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iPad.png; path = Icons/iPad.png; sourceTree = "<group>"; };
@@ -614,6 +624,10 @@
 				B7378993180767190076A88C /* LobbyScene.m */,
 				9B2A235F1D2428E800C6EEC5 /* ChatRoomScene.h */,
 				9B2A23601D2428E800C6EEC5 /* ChatRoomScene.m */,
+				9BB10CEE1D551AB700A038FD /* PackageSizeScene.h */,
+				9BB10CEF1D551AB700A038FD /* PackageSizeScene.m */,
+				9BB10CF51D551ACC00A038FD /* PackageRateScene.h */,
+				9BB10CF61D551ACC00A038FD /* PackageRateScene.m */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -1014,6 +1028,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A4036E819DE3F33007B6E8F /* LobbyScene.m in Sources */,
+				9BB10CF21D551AB700A038FD /* PackageSizeScene.m in Sources */,
 				7A40360419DDEE84007B6E8F /* main.m in Sources */,
 				9B1F83EE1D19E1E400837DA1 /* NCMCPeripheralInfo.m in Sources */,
 				9B6B1ED31D18944F0008B45D /* LoginScene.m in Sources */,
@@ -1023,6 +1038,7 @@
 				9B1F83CF1D19B5AF00837DA1 /* NCMCBluetoothLEManager.m in Sources */,
 				9B2A23631D2428E800C6EEC5 /* ChatRoomScene.m in Sources */,
 				9B1F83DE1D19CFCE00837DA1 /* NCMCMessageData.m in Sources */,
+				9BB10CF91D551ACC00A038FD /* PackageRateScene.m in Sources */,
 				9B28F0281D219148008B35B3 /* NCMCAlertView.m in Sources */,
 				9B6B1EEE1D1899850008B45D /* MultiplayerController.m in Sources */,
 			);
@@ -1034,7 +1050,9 @@
 			files = (
 				9B2A23621D2428E800C6EEC5 /* ChatRoomScene.m in Sources */,
 				9B6B1ED21D18944F0008B45D /* LoginScene.m in Sources */,
+				9BB10CF11D551AB700A038FD /* PackageSizeScene.m in Sources */,
 				9B24307F1D1C849D00F5DFC1 /* NCMCDeviceInfo.m in Sources */,
+				9BB10CF81D551ACC00A038FD /* PackageRateScene.m in Sources */,
 				9B1F83ED1D19E1E400837DA1 /* NCMCPeripheralInfo.m in Sources */,
 				9B6B1EED1D1899850008B45D /* MultiplayerController.m in Sources */,
 				9B6B1ED71D1895860008B45D /* SettingScene.m in Sources */,
@@ -1054,8 +1072,10 @@
 				9B2A23611D2428E800C6EEC5 /* ChatRoomScene.m in Sources */,
 				9B1F83C71D19AEEF00837DA1 /* NCMCPeerID.m in Sources */,
 				7A046D8C19E8A20E004C4763 /* LobbyScene.m in Sources */,
+				9BB10CF71D551ACC00A038FD /* PackageRateScene.m in Sources */,
 				9B6B1ED11D18944F0008B45D /* LoginScene.m in Sources */,
 				9B3EC30B1D525C0500EF4C0E /* GPBProtocolBuffers.m in Sources */,
+				9BB10CF01D551AB700A038FD /* PackageSizeScene.m in Sources */,
 				9B1F83C91D19AEEF00837DA1 /* NCMCSession.m in Sources */,
 				9B3EC3121D52618900EF4C0E /* NetworkLogger.m in Sources */,
 				9B1F83CD1D19B5AF00837DA1 /* NCMCBluetoothLEManager.m in Sources */,

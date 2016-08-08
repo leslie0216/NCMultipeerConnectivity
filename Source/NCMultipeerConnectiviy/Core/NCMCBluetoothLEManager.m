@@ -208,7 +208,7 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
             if (isCompleted) {
                 
                 if (self.session != nil) {
-                    [self.session onDataReceived:msgData from:uuid];
+                    [self.session onDataReceived:[data data] from:uuid];
                 }
                 
                 [data clearData];
@@ -622,8 +622,8 @@ static NCMCBluetoothLEManager *_sharedNCMCBluetoothLEManager = nil;
         return;
     }
     
-    NCMCPeripheralInfo *info = self.discoveredPeripherals[peripheral.identifier.UUIDString];
-    NSLog(@"didWriteValueForCharacteristic to %@", info.name);
+    //NCMCPeripheralInfo *info = self.discoveredPeripherals[peripheral.identifier.UUIDString];
+    //NSLog(@"didWriteValueForCharacteristic to %@", info.name);
 }
 // end CBPeripheralDelegate
 

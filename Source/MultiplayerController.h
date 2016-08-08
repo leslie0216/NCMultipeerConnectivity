@@ -31,6 +31,7 @@
 -(void) startClient;
 
 -(void)sendData:(NSData*)data to:(NSString*)name  withMode:(NCMCSessionSendDataMode)mode;
+-(void)sendData:(NSData *)msgData toAllwithMode:(NCMCSessionSendDataMode)mode;
 -(void)gotoChatRoom;
 
 @end

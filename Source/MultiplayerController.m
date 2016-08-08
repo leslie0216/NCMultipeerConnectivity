@@ -102,7 +102,7 @@ static MultiplayerController *_sharedMultiplayerController = nil;
     }
 }
 
--(void)sendData:(NSData *)msgData to:(NSString *)name  withMode:(NCMCSessionSendDataMode)mode;
+-(void)sendData:(NSData *)msgData to:(NSString *)name  withMode:(NCMCSessionSendDataMode)mode
 {
     NCMCPeerID *peer  = [self getPeerIDByName:name];
     if (peer != nil) {
@@ -111,6 +111,13 @@ static MultiplayerController *_sharedMultiplayerController = nil;
         NSArray *targets = @[peer];
         [self.currentSession sendData:data toPeers:targets withMode:mode];
     }
+}
+
+-(void)sendData:(NSData *)msgData toAllwithMode:(NCMCSessionSendDataMode)mode
+{
+    NSData *data = [self packMessageWithType:MSG_CHAT_MSG andMessage:msgData];
+    CCLOG(@"MultiplayerController sendDataToAll msgData length: %d", data.length);
+    [self.currentSession sendData:data toPeers:[self.currentSession getConnectedPeers] withMode:mode];
 }
 
 -(NCMCPeerID*)getPeerIDByName:(NSString*)name
@@ -163,7 +170,7 @@ static MultiplayerController *_sharedMultiplayerController = nil;
     return [NSData dataWithBytesNoCopy:msgBuffer length:len+1 freeWhenDone:NO];
 }
 
-- (void)processMessage:(NSData*)data fromPeer:(NCMCPeerID*)peer
+- (void)processMessage:(NSData*)data fromPeer:(NCMCPeerID*)peer atTime:(NSNumber*)time
 {
     char* msgPointer = (char*)[data bytes];
     int msgLength = [data length];
@@ -182,7 +189,8 @@ static MultiplayerController *_sharedMultiplayerController = nil;
         case MSG_CHAT_MSG:
         {
             NSDictionary *userInfo = @{ @"name": [self stringForMCPeerDisplayName:[peer getDisplayName]],
-                                        @"message": msgData};
+                                        @"data": msgData,
+                                        @"time": time};
             
             dispatch_async(dispatch_get_main_queue(), ^{
                 [[NSNotificationCenter defaultCenter] postNotificationName:RECEIVED_MESSAGE_NOTIFICATION
@@ -253,7 +261,10 @@ static MultiplayerController *_sharedMultiplayerController = nil;
 
 -(void)session:(NCMCSession *)session didReceiveData:(NSData *)data fromPeer:(NCMCPeerID *)peerID
 {
-    [self processMessage:data fromPeer:peerID];
+    CFTimeInterval t = CACurrentMediaTime() * 1000; // 1000 convert to ms
+    NSNumber *time = [NSNumber numberWithDouble:t];
+    
+    [self processMessage:data fromPeer:peerID atTime:time];
 }
 
 -(void)centralService:(NCMCCentralService *)centralService foundPeer:(NCMCPeerID *)peerID
