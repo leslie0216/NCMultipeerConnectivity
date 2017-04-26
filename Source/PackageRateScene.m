@@ -25,6 +25,7 @@
     CCLabelTTF* lbprTotalCount;
     CCLabelTTF* lbprPackageRate;
     CCLabelTTF* lbprBandwidth;
+    CCLabelTTF* lbprToken;
     
     BOOL isPing;
     BOOL isPingEnabled;
@@ -51,8 +52,8 @@
     isPing = NO;
     isPingEnabled = NO;
     btnPRStart.title = @"Start";
-    messageSize = 0;
-    isLogEnabled = NO;
+    messageSize = MessageSizeForPackageRate;
+    isLogEnabled = YES;
     packageRate = 0;
     
     lbprPackageSize.string = [NSString stringWithFormat:@"%d", [self getPackageSize]];
@@ -86,7 +87,7 @@
 - (void)handleReceivedMessageWithNotification:(NSNotification *)notification
 {
     NSData* msgData = [[notification userInfo] objectForKey:@"data"];
-    //NSString* name = [[notification userInfo] objectForKey:@"name"];
+    NSString* name = [[notification userInfo] objectForKey:@"name"];
     
     
     PingMessage *message = [[PingMessage alloc] initWithData:msgData error:nil];
@@ -115,7 +116,7 @@
         info.currentCount += 1;
         receivedCount += 1;
         
-        if (isPing) {
+        if (true) {
             lbprPackageSize.string = [NSString stringWithFormat:@"%d", [self getPackageSize]];
             lbprCurrentPing.string = [NSString stringWithFormat:@"%f", timeInterval];
             lbprReceviedCount.string = [NSString stringWithFormat:@"%d", receivedCount];
@@ -124,10 +125,12 @@
             lbprBandwidth.string = [NSString stringWithFormat:@"%f", [self getBandwidth]];
             
             if (info.totalCount == info.currentCount) {
-                if (totalCount >= MaxPingCount && receivedCount >= MaxPingCount) {
+                lbprToken.string = [NSString stringWithFormat:@"%d", info.token];
+                /*if (totalCount >= MaxPingCount && receivedCount >= MaxPingCount) {
                     isPingEnabled = NO;
                     [self calculateResult];
-                }
+                }*/
+                [self calculateResultWithToken:info.token];
             }
         }
     } else if (message.messageType == PingMessage_MsgType_Ping){
@@ -145,7 +148,8 @@
         
         NCMCSessionSendDataMode mode = message.isReliable ? NCMCSessionSendDataReliable : NCMCSessionSendDataUnreliable;
         
-        [[MultiplayerController instance] sendData:sendData toAllwithMode:mode];
+        //[[MultiplayerController instance] sendData:sendData toAllwithMode:mode];
+        [[MultiplayerController instance] sendData:sendData to:name withMode:mode];
         
         CCLOG(@"send response to %@ with token : %u, length : %lu and local response time : %f", [[notification userInfo] objectForKey:@"peerName"], message.token, (unsigned long)sendData.length, packet.responseTime);
     }
@@ -234,14 +238,14 @@
     
     totalCount = 0;
     receivedCount = 0;
-    messageSize = 1;
+    messageSize = MessageSizeForPackageRate;
     
     if (isLogEnabled) {
         [self startLog];
     }
     
     lastServerBroadcastTime = 0;
-    packageRate = 1;
+    packageRate = 30;
     isPingEnabled = YES;
 }
 
@@ -270,7 +274,7 @@
         [message appendString:@"a"];
     }
     
-    int token = totalCount + 1;
+    int token = ++totalCount;// + 1;
     
     bufMsg.message = message;
     bufMsg.token = token;
@@ -287,16 +291,17 @@
     info.token = token;
     info.totalCount = [[[[MultiplayerController instance] currentSession] getConnectedPeers] count];
     info.currentCount = 0;
-    info.number = totalCount + 1;
-    totalCount += info.totalCount;
+    //info.number = totalCount + 1;
+    //totalCount += info.totalCount;
     info.timeIntervals = [[NSMutableArray alloc]initWithCapacity:info.totalCount];
     
     NSString *t = [NSString stringWithFormat:@"%d", token];
     [pingDict setValue:info forKey:t];
     
+    /*
     if (totalCount >= MaxPingCount) {
         isPingEnabled = NO;
-    }
+    }*/
 }
 
 - (NSNumber *)standardDeviationOf:(NSArray *)array mean:(double)mean
@@ -318,8 +323,10 @@
 - (void)calculateResult
 {
     NSMutableArray *allTimes = [[NSMutableArray alloc]init];
+    NSString* token;
     for (id key in pingDict) {
         PingInfo *info = pingDict[key];
+        token = key;
         
         for(NSNumber *num in info.timeIntervals) {
             [allTimes addObject:num];
@@ -335,7 +342,8 @@
         NSUInteger peerCount = [[[[MultiplayerController instance] currentSession] getConnectedPeers] count];
         int realsize = [self getPackageSize];
         
-        NSString *log = [[NSString alloc]initWithFormat:@"%d, %d, %.8f, %lu, %.8f, %.8f\n", realsize, packageRate, [self getBandwidth], (unsigned long)peerCount, [average doubleValue], [std doubleValue]];
+        // NSString *log = [[NSString alloc]initWithFormat:@"%d, %d, %.8f, %lu, %.8f, %.8f\n", realsize, packageRate, [self getBandwidth], (unsigned long)peerCount, [average doubleValue], [std doubleValue]];
+        NSString *log = [[NSString alloc]initWithFormat:@"%@, %d, %d, %.8f, %lu, %.8f, %.8f\n", token, realsize, packageRate, [self getBandwidth], (unsigned long)peerCount, [average doubleValue], [std doubleValue]];
         
         [self writeLog:log];
     }
@@ -344,8 +352,34 @@
         [pingDict removeAllObjects];
         receivedCount = 0;
         totalCount = 0;
-        packageRate += 1;
+        //packageRate += 1;
         isPingEnabled = YES;
+    }
+}
+
+- (void)calculateResultWithToken:(int) token
+{
+    NSMutableArray *allTimes = [[NSMutableArray alloc]init];
+    NSString *t = [NSString stringWithFormat:@"%d", token];
+    PingInfo *info = pingDict[t];
+        
+    for(NSNumber *num in info.timeIntervals) {
+        [allTimes addObject:num];
+    }
+    
+    NSNumber *average = [allTimes valueForKeyPath:@"@avg.self"];
+    NSNumber *std = [self standardDeviationOf:allTimes mean:[average doubleValue]];
+    
+    
+    if (isLogEnabled) {
+        // log (packSize, packageRate, bandwidth, client count, avgPing, sd)
+        NSUInteger peerCount = [[[[MultiplayerController instance] currentSession] getConnectedPeers] count];
+        int realsize = [self getPackageSize];
+        
+        // NSString *log = [[NSString alloc]initWithFormat:@"%d, %d, %.8f, %lu, %.8f, %.8f\n", realsize, packageRate, [self getBandwidth], (unsigned long)peerCount, [average doubleValue], [std doubleValue]];
+        NSString *log = [[NSString alloc]initWithFormat:@"%d, %d, %d, %.8f, %lu, %.8f, %.8f\n", token, realsize, packageRate, [self getBandwidth], (unsigned long)peerCount, [average doubleValue], [std doubleValue]];
+        
+        [self writeLog:log];
     }
 }
 @end

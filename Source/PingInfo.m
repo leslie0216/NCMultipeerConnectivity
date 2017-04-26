@@ -14,6 +14,6 @@
 @synthesize timeIntervals;
 @synthesize totalCount;
 @synthesize currentCount;
-@synthesize number;
+//@synthesize number;
 
 @end

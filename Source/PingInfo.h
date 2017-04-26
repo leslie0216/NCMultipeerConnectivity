@@ -14,7 +14,7 @@
 @property(strong, nonatomic)NSMutableArray *timeIntervals;
 @property(assign, nonatomic)unsigned long totalCount;
 @property(assign, nonatomic)unsigned long currentCount;
-@property(assign, nonatomic)unsigned long number;
+//@property(assign, nonatomic)unsigned long number;
 
 @end
 

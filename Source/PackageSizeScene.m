@@ -47,7 +47,7 @@
     isPing = NO;
     btnPSStart.title = @"Start";
     messageSize = 0;
-    isLogEnabled = NO;
+    isLogEnabled = YES;
     
     lbpsPackageSize.string = [NSString stringWithFormat:@"%d", [self getPackageSize]];
     
@@ -196,7 +196,7 @@
     
     totalCount = 0;
     receivedCount = 0;
-    messageSize = 1;
+    messageSize = 272;
     
     if (isLogEnabled) {
         [self startLog];
@@ -237,7 +237,7 @@
     info.token = token;
     info.totalCount = [[[[MultiplayerController instance] currentSession] getConnectedPeers] count];
     info.currentCount = 0;
-    info.number = totalCount + 1;
+    //info.number = totalCount + 1;
     totalCount += info.totalCount;
     info.timeIntervals = [[NSMutableArray alloc]initWithCapacity:info.totalCount];
     

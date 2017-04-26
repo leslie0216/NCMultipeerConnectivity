@@ -26,7 +26,8 @@ typedef int64_t HEADER_TYPE;
 #define MAX_USERNAME_LENGTH 8
 #define MIN_USERNAME_LENGTH 3
 
-#define MaxPingCount 30
+#define MaxPingCount 1
+#define MessageSizeForPackageRate 90
 
 #define SCREEN_HEIGHT ([CCDirector sharedDirector].viewSize.height)
 #define SCREEN_WIDTH ([CCDirector sharedDirector].viewSize.width)

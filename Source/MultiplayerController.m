@@ -150,7 +150,7 @@ static MultiplayerController *_sharedMultiplayerController = nil;
         [self.currentSession sendData:data toPeers:self.currentSessionPlayerIDs withMode:NCMCSessionSendDataReliable];
     }
     
-    CCScene *chatScene = [CCBReader loadAsScene:@"ChatRoomScene"];
+    CCScene *chatScene = [CCBReader loadAsScene:@"PackageRateScene"];
     [[CCDirector sharedDirector] replaceScene:chatScene];
 }
 
